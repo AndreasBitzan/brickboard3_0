@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Pktharindu\NovaPermissions\Role;
 use Pktharindu\NovaPermissions\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -63,5 +64,15 @@ class User extends Authenticatable
     public function news()
     {
         return $this->hasMany(News::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::created(function (User $user) {
+            $standardRole = Role::where('slug', 'regular')->first();
+            if ($standardRole) {
+                $user->sync([$standardRole->id]);
+            }
+        });
     }
 }

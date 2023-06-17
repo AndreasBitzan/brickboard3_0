@@ -1,11 +1,10 @@
-<div class="md:flex md:items-center md:justify-between md:space-x-5 space-y-4 shadow-md p-2">
+<div class="md:flex md:items-center md:justify-between md:space-x-5 space-y-4 shadow-md p-2 transition-all hover:scale-105">
         <div class="flex items-start space-x-5">
             <div class="flex-shrink-0">
-                <div class="relative">
-                    <img class="h-16 w-16 rounded-full"
-                        src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
+                <div class="relative border-r border-gray-400">
+                    <img class="h-16 w-16"
+                        src="https://www.brickboard.de/assets/images/forum_icons/Icon_News.svg"
                         alt="">
-                    <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></span>
                 </div>
             </div>
             <!--
@@ -13,7 +12,7 @@
         but preserve the same layout if the text wraps without making the image jump around.
       -->
             <div class="pt-1.5">
-                <a href="{{ route('forum.detail',$messageboard) }}"><h1 class="text-xl text-gray-900">{{ $messageboard->name }}</h1></a>
+                <a href="{{ route('forum.detail',$messageboard) }}" class="text-gray-900 hover:text-brickred"><h1 class="text-xl ">{{ $messageboard->name }}</h1></a>
                 <div class="text-sm text-gray-500">{!! $messageboard->description !!}</div>
             </div>
         </div>

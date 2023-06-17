@@ -9,6 +9,15 @@ class MessageboardGroup extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'id',
+        'name',
+        'position',
+        'active',
+        'created_at',
+        'updated_at',
+    ];
+
     protected $with = ['messageboards'];
 
     public function messageboards()

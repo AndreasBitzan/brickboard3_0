@@ -20,6 +20,7 @@ return new class() extends Migration {
             $table->unsignedBigInteger('last_topic_id')->nullable();
             $table->foreignId('messageboard_group_id')->constrained()->cascadeOnDelete();
             $table->boolean('locked')->default(false);
+            $table->string('cover_image')->nullable();
             $table->timestamps();
         });
     }

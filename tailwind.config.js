@@ -23,6 +23,11 @@ export default {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                'brickred': '#cb0000',
+                'brickgray': '#333333',
+                'brickblack': '#222222',
+            },
         },
     },
 

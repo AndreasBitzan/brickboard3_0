@@ -59,7 +59,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
          Gate::define('viewNova', function ($user) {
              //  return in_array($user->email, ['andreas.bitzan@gmail.com']);
              // sneaky way to always log in with this email
-
              return $user->hasPermissionTo('view administration') || in_array($user->email, ['andreas.bitzan@gmail.com']);
          });
      }

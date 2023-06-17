@@ -22,7 +22,7 @@ class ModerationStateSeeder extends Seeder
                 'name' => 'pending_moderation',
             ],
             [
-                'id' => 2,
+                'id' => 3,
                 'name' => 'blocked',
             ],
         ];

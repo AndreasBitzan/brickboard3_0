@@ -31,7 +31,7 @@
     <x-notifications />
     <div class="min-h-screen bg-white dark:bg-gray-900">
         @livewire('navigation-menu')
-
+        {{-- @livewire('notification-center') --}}
         <!-- Page Heading -->
         @if (isset($header))
             <header class="bg-white dark:bg-gray-800 shadow">

@@ -1,3 +1,3 @@
 <div>
-    {{-- Because she competes with no one, no one can compete with her. --}}
+    <h1 wire:poll.10s='compareNotifcations' class="bg-red-500 p-4 text-white">{{ count($notificationList) }}</h1>
 </div>
