@@ -25,9 +25,13 @@ export default {
             },
             colors: {
                 'brickred': '#cb0000',
+                'brickred-darker': '#ad0606',
                 'brickgray': '#333333',
                 'brickblack': '#222222',
             },
+            scale: {
+                '101': '1.01',
+            }
         },
     },
 

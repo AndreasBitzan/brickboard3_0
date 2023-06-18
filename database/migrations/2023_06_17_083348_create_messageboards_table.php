@@ -12,9 +12,9 @@ return new class() extends Migration {
     {
         Schema::create('messageboards', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug')->unique();
-            $table->longText('description')->nullable();
+            $table->json('name');
+            $table->json('slug');
+            $table->json('description')->nullable();
             $table->integer('topics_count')->default(0);
             $table->integer('posts_count')->default(0);
             $table->unsignedBigInteger('last_topic_id')->nullable();

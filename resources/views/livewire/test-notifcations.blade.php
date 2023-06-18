@@ -1,3 +1,3 @@
 <div>
-   <x-button wire:click='shootNotification' type="button">Notify me</x-button>
+   <x-button wire:click='shootNotification' type="button">{{ __('Bitte Notifiziere') }}</x-button>
 </div>

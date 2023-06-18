@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Spatie\NovaTranslatable\Translatable;
 
 class News extends Resource
 {
@@ -43,8 +44,10 @@ class News extends Resource
     {
         return [
             ID::make()->sortable(),
-            Text::make('title'),
-            Text::make('short_description'),
+            Translatable::make([
+                Text::make('title'),
+                Text::make('short_description'),
+            ]),
             Image::make('cover_image')->disk('public')->path('news/'.now('Europe/Vienna')->year.'/'.now('Europe/Vienna')->month),
             BelongsTo::make('User', 'author', User::class)->default(auth()->id()),
         ];

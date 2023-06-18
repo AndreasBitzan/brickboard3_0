@@ -22,6 +22,13 @@ class TopicCreator extends Component
         'content' => 'required',
     ];
 
+    public function updated($value, $key)
+    {
+        error_log('UDPATED');
+        error_log(json_encode($value));
+        error_log(json_encode($key));
+    }
+
     public function mount(Messageboard $messageboard)
     {
         $this->messageboard = $messageboard;
@@ -35,6 +42,14 @@ class TopicCreator extends Component
 
     public function createTopic()
     {
+        if (null == $this->title || '' == $this->title || empty(trim($this->title))) {
+            $this->notification()->error(__('Bitte gib einen Titel an!'));
+        }
+
+        if (null == $this->content || '' == $this->content || empty(trim($this->content))) {
+            $this->notification()->error(__('Bitte gib deinen Inhalt ein!'));
+        }
+
         $this->validate();
 
         $topic_created = Topic::create([

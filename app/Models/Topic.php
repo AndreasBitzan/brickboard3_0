@@ -62,6 +62,8 @@ class Topic extends Model
     {
         static::created(function (Topic $topic) {
             error_log('TOPIC WAS CREATED DISPACHT JOB OR ASSING BADGE?');
+
+            Messageboard::where('id', $topic->messageboard_id)->incrementEach(['topics_count' => 1, 'posts_count' => 1], ['last_topic_id' => $topic->id]);
         });
     }
 }

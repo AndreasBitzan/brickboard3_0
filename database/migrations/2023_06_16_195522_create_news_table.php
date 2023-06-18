@@ -12,9 +12,9 @@ return new class() extends Migration {
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
-            $table->text('title');
-            $table->longText('description')->nullable();
-            $table->longText('short_description')->nullable();
+            $table->json('title');
+            $table->json('description')->nullable();
+            $table->json('short_description')->nullable();
             $table->string('external_url')->nullable();
             $table->string('internal_url')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();

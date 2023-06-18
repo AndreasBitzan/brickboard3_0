@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Spatie\NovaTranslatable\Translatable;
 
 class Messageboard extends Resource
 {
@@ -45,9 +46,11 @@ class Messageboard extends Resource
     {
         return [
             ID::make()->sortable(),
-            Text::make('Name', 'name'),
-            Slug::make('Slug', 'slug')->from('name'),
-            Trix::make('Description', 'description'),
+            Translatable::make([
+                Text::make('Name', 'name'),
+                Trix::make('Description', 'description'),
+                Slug::make('Slug', 'slug')->from('name'),
+            ]),
             Boolean::make('Gesperrt', 'locked'),
             BelongsTo::make('Gruppe', 'messageboard_group', MessageboardGroup::class),
         ];

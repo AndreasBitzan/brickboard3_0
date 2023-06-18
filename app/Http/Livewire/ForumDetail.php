@@ -30,7 +30,7 @@ class ForumDetail extends Component
 
     public function getRowsProperty()
     {
-        return $this->rowsQuery->paginate(20);
+        return $this->rowsQuery->paginate(3);
     }
 
     public function render()

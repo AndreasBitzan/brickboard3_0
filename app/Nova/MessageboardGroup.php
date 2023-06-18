@@ -7,6 +7,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Spatie\NovaTranslatable\Translatable;
 
 class MessageboardGroup extends Resource
 {
@@ -42,7 +43,9 @@ class MessageboardGroup extends Resource
     {
         return [
             ID::make()->sortable(),
-            Text::make('Title', 'name'),
+            Translatable::make([
+                Text::make('Title', 'name'),
+            ]),
             Number::make('Position', 'position'),
         ];
     }

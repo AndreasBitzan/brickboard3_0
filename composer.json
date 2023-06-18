@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "codezero/laravel-localized-routes": "^3.1",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/jetstream": "^3.2",
@@ -14,6 +15,7 @@
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^2.11",
         "pktharindu/nova-permissions": "^3.0",
+        "spatie/nova-translatable": "^4.0",
         "wireui/wireui": "^1.17"
     },
     "require-dev": {
@@ -63,7 +65,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "codezero/composer-preload-files": true
         }
     },
     "minimum-stability": "stable",

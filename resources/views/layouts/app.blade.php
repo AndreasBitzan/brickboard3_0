@@ -17,6 +17,12 @@
             src: url('/fonts/nunito-400.woff2') format('woff2');
             font-weight: normal;
         }
+
+        [x-cloak] {
+            visibility: hidden;
+            overflow: hidden;
+            display: none;
+        }
     </style>
     <!-- Scripts -->
     @wireUiScripts
@@ -30,7 +36,8 @@
     <x-banner />
     <x-notifications />
     <div class="min-h-screen bg-white dark:bg-gray-900">
-        @livewire('navigation-menu')
+        {{-- @livewire('navigation-menu') --}}
+        <x-ui.navigation-bar />
         {{-- @livewire('notification-center') --}}
         <!-- Page Heading -->
         @if (isset($header))

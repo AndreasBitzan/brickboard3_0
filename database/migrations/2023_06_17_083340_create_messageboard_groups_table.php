@@ -12,7 +12,7 @@ return new class() extends Migration {
     {
         Schema::create('messageboard_groups', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->json('name');
             $table->integer('position')->default(0);
             $table->boolean('active')->default(false);
             $table->timestamps();

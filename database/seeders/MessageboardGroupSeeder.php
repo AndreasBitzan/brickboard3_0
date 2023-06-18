@@ -15,7 +15,7 @@ class MessageboardGroupSeeder extends Seeder
         $groups = [
             [
                 'id' => 1,
-                'name' => 'Ankündigungen',
+                'name' => json_encode(['de' => 'Ankündigungen', 'en' => 'Announcements']),
                 'position' => 1,
                 'active' => true,
                 'created_at' => now('Europe/Vienna'),
@@ -23,7 +23,7 @@ class MessageboardGroupSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'name' => 'Das Board',
+                'name' => json_encode(['de' => 'Das Board', 'en' => 'The forums']),
                 'position' => 2,
                 'active' => true,
                 'created_at' => now('Europe/Vienna'),
