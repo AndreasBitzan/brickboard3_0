@@ -1,6 +1,5 @@
-<div class="grid grid-cols-[5px_5%_auto_auto_25%] border border-gray-200 shadow-md">
+<a href="{{ route('topic.detail',['messageboard' => $topic->messageboard, 'topic' => $topic]) }}" class="grid grid-cols-[5px_5%_auto_auto_25%] border border-gray-200 shadow-md">
     <div class="h-full bg-gray-400 block">
-
     </div>
     <div class="text-gray-900 p-2 flex items-center justify-center">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-auto h-full">
@@ -21,7 +20,12 @@
     </div>
     <div class="flex flex-col px-2 py-1">
         <p>{{ __('Letzte Antwort') }}</p>
-        <p>{{ __('von:') }} {{ $topic->author->name }}</p>
-        <p>{{ $topic->created_at->format('d.m.Y H:i') }}</p>
+        <p>{{ __('von:') }} {{ $topic->last_user->name }}</p>
+        <p>
+            @isset($topic->last_post_at)
+            {{ $topic->last_post_at->format('d.m.Y H:i') }}</p>             
+            @else
+            {{ $topic->created_at->format('d.m.Y H:i') }}</p>
+            @endisset
     </div>
-</div>
+</a>

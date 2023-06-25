@@ -16,7 +16,7 @@
                     <x-icons.solid.camera class="w-4 h-4 mr-2" />
                     {{ __('Filme') }}
                 </x-ui.main-menu-item>
-                <x-ui.main-menu-item href="">
+                <x-ui.main-menu-item href="{{ route('members') }}">
                     <x-icons.solid.users class="w-4 h-4 mr-2" />{{ __('Mitglieder') }}
                 </x-ui.main-menu-item>
             </div>

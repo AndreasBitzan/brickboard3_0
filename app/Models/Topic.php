@@ -33,9 +33,18 @@ class Topic extends Model
 
     protected $with = ['author', 'last_user'];
 
+    protected $casts = [
+        'last_post_at' => 'datetime:Y-m-d',
+    ];
+
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function messageboard()
+    {
+        return $this->belongsTo(Messageboard::class, 'messageboard_id');
     }
 
     public function posts()

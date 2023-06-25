@@ -36,6 +36,11 @@ class Messageboard extends Model
         return 'slug';
     }
 
+    public function topics()
+    {
+        return $this->hasMany(Topic::class);
+    }
+
     public function last_topic()
     {
         return $this->belongsTo(Topic::class, 'last_topic_id');

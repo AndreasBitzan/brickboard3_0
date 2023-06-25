@@ -1,7 +1,7 @@
 <div>
     <div class="flex justify-between pb-4">
         <span>{{ __("Themen als gelesen markieren") }}</span>
-        <x-basics.big-button link href="{{ route('forum.create-topic', $messageboard) }}">
+        <x-basics.big-button link href="{{ route('forum.create-topic', ['messageboard'=>$messageboard]) }}">
             <x-slot name="icon">
                 <x-icons.plus class="-ml-0.5 h-5 w-5" />
             </x-slot>
