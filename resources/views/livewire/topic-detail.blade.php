@@ -2,7 +2,7 @@
     <ul class="flex flex-col space-y-4">
         @foreach ($posts as $post)
             <li wire:key="post-{{ $post->id }}">
-                <x-forum.post-item :post="$post" />
+                <livewire:post-item :post="$post" wire:key="post-lvw-{{ $post->id }}" />
             </li>
         @endforeach
     </ul>
@@ -17,7 +17,6 @@
                     <span>{{ __('Antworten') }}</span>
                 @endif
             </x-slot>
-
         </x-basics.big-button>
     </div>
     @if ($edit)

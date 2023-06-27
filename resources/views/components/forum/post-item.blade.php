@@ -12,6 +12,11 @@
                 {{ $post->author->created_at->format('d.m.Y') }}
             </p>
             @endisset
+            @can('delete', App\Post::class)
+            <button wire:click='deletePost'>
+                <x-icons.solid.trash class="w-5 h-5" />
+            </button>
+            @endcan
         </div>
     </aside>
     <div class="bg-gray-100 p-4">

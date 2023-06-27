@@ -20,26 +20,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::localized(function () {
-    Route::prefix('/forum')->group(function () {
-        Route::get('/', function () {
-            return view('forum');
-        })->name('forum.overview');
-        Route::get('/{messageboard:slug}', function (Messageboard $messageboard) {
-            return view('forum-detail')->with(['messageboard' => $messageboard]);
-        })->name('forum.detail');
-        Route::get('/{messageboard:slug}/{topic:slug}', function (Messageboard $messageboard, Topic $topic) {
-            return view('topic-detail')->with(['messageboard' => $messageboard, 'topic' => $topic]);
-        })->name('topic.detail');
-    });
-});
-
-Route::localized(function () {
-    Route::get('/'.Lang::uri('mitglieder'), function () {
-        return view('members');
-    })->name('members');
-});
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -58,4 +38,24 @@ Route::middleware([
             return view('dashboard');
         })->name('dashboard');
     });
+});
+
+Route::localized(function () {
+    Route::prefix('/forum')->group(function () {
+        Route::get('/', function () {
+            return view('forum');
+        })->name('forum.overview');
+        Route::get('/{messageboard:slug}', function (Messageboard $messageboard) {
+            return view('forum-detail')->with(['messageboard' => $messageboard]);
+        })->name('forum.detail');
+        Route::get('/{messageboard:slug}/{topic:slug}', function (Messageboard $messageboard, Topic $topic) {
+            return view('topic-detail')->with(['messageboard' => $messageboard, 'topic' => $topic]);
+        })->name('topic.detail');
+    });
+});
+
+Route::localized(function () {
+    Route::get('/'.Lang::uri('mitglieder'), function () {
+        return view('members');
+    })->name('members');
 });

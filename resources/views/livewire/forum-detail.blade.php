@@ -1,4 +1,5 @@
 <div>
+    @auth
     <div class="flex justify-between pb-4">
         <span>{{ __("Themen als gelesen markieren") }}</span>
         <x-basics.big-button link href="{{ route('forum.create-topic', ['messageboard'=>$messageboard]) }}">
@@ -8,6 +9,7 @@
             {{ __("Thema erstellen") }}
         </x-basics.big-button>
     </div>
+    @endauth
     <x-forum.messageboard-heading>{{ $messageboard->name }}</x-forum.messageboard-heading>
     <ul class="flex flex-col space-y-2">
         @forelse ($topics as $topic)

@@ -66,6 +66,21 @@ class User extends Authenticatable
         return $this->hasMany(News::class);
     }
 
+    public function isSuperAdmin(): bool
+    {
+        return $this->roles()->where('slug', 'superadmin')->exists();
+    }
+
+    public function isModerator(): bool
+    {
+        return $this->roles()->where('slug', 'moderator')->exists();
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->roles()->where('slug', 'admin')->exists();
+    }
+
     protected static function booted(): void
     {
         static::created(function (User $user) {

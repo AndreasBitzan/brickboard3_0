@@ -44,5 +44,13 @@ class Post extends Model
             Topic::where('id', $post->topic_id)->incrementEach(['posts_count' => 1], ['last_post_at' => $post->created_at, 'last_user_id' => $post->user_id]);
             Messageboard::where('id', $post->messageboard_id)->increment('posts_count');
         });
+
+        static::deleted(function (Post $post) {
+            error_log('DELETION CALLED');
+            // error_log(json_encode($post));
+            // TODO check if this post was the last post and change the ids in the connected topic
+            Topic::where('id', $post->topic_id)->decrement('posts_count');
+            Messageboard::where('id', $post->messageboard_id)->decrement('posts_count');
+        });
     }
 }
