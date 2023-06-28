@@ -21,6 +21,7 @@ class TopicDetail extends Component
     public $edit = false;
     public $content = '';
 
+    protected $listeners = ['refreshPostList' => '$refresh'];
     // protected $queryString = ['page'];
 
     public function mount()
@@ -29,6 +30,70 @@ class TopicDetail extends Component
         $this->sortDirection = 'asc';
 
         // $this->gotoPage($this->rows->lastPage());
+    }
+
+    public function followTopic()
+    {
+        if ($this->isFollower()) {
+            $this->topic->followers()->detach(auth()->id());
+            $this->notification()->info(__('Benachrichtigungen deaktiviert'));
+            // $this->emit('refreshPostList');
+        } else {
+            $this->topic->followers()->attach(auth()->id(), ['created_at' => now('Europe/Vienna')]);
+            $this->notification()->success(__('Benachrichtigungen aktiv'));
+            // $this->emit('refreshPostList');
+        }
+    }
+
+    public function isFollower(): bool
+    {
+        return auth()->user()->followed_topics()->where('topic_id', $this->topic->id)->exists();
+    }
+
+    public function deleteTopic()
+    {
+        $this->dialog()->confirm([
+            'title' => __('Bist du sicher?'),
+            'description' => __('Topic wirklich löschen?'),
+            'icon' => 'warning',
+            'acceptLabel' => __('Ja, löschen'),
+            'rejectLabel' => __('Abbrechen'),
+            'method' => 'performDelete',
+        ]);
+    }
+
+    public function performDelete()
+    {
+        if (auth()->user()->hasPermissionTo('delete topic')) {
+            $this->topic->delete();
+            $this->redirect(route('forum.detail', $this->messageboard));
+        } else {
+            $this->notification()->error(__('Berechtigung fehlt'));
+        }
+    }
+
+    public function pinTopic()
+    {
+        if (false == $this->topic->sticky) {
+            $this->topic->sticky = true;
+            $this->notification()->info(__('Thema angepinnt'));
+        } else {
+            $this->topic->sticky = false;
+            $this->notification()->info(__('Thema entpinnt'));
+        }
+        $this->topic->save();
+    }
+
+    public function lockTopic()
+    {
+        if (false == $this->topic->locked) {
+            $this->topic->locked = true;
+            $this->notification()->info(__('Thema gesperrt'));
+        } else {
+            $this->topic->locked = false;
+            $this->notification()->info(__('Thema entsperrt'));
+        }
+        $this->topic->save();
     }
 
     public function getRowsQueryProperty()

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\App;
 use Spatie\Translatable\HasTranslations;
 
@@ -44,6 +45,11 @@ class Messageboard extends Model
     public function last_topic()
     {
         return $this->belongsTo(Topic::class, 'last_topic_id');
+    }
+
+    public function latestTopic(): HasOne
+    {
+        return $this->hasOne(Topic::class)->latestOfMany();
     }
 
     public function messageboard_group()

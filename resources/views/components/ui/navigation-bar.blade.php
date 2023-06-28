@@ -17,7 +17,8 @@
                     {{ __('Filme') }}
                 </x-ui.main-menu-item>
                 <x-ui.main-menu-item href="{{ route('members') }}">
-                    <x-icons.solid.users class="w-4 h-4 mr-2" />{{ __('Mitglieder') }}
+                    <img src="{{ asset('images/lego_members_zoomed.svg') }}"
+                        class="w-5 h-5 mr-2 mb-1" />{{ __('Mitglieder') }}
                 </x-ui.main-menu-item>
             </div>
             <div class="flex items-center lg:hidden">
@@ -39,63 +40,94 @@
             </div>
             <div class="hidden lg:ml-4 lg:flex lg:items-center">
                 @guest
-                   <x-ui.main-menu-item href="{{  route('login') }}" :active="request()->routeIs('*.login')">
+                    <x-ui.main-menu-item href="{{ route('login') }}" :active="request()->routeIs('*.login')">
                         {{ __('Login') }}
                     </x-ui.main-menu-item>
-                    <x-ui.main-menu-item href="{{  route('register') }}" :active="request()->routeIs('*.register')">
+                    <x-ui.main-menu-item href="{{ route('register') }}" :active="request()->routeIs('*.register')">
                         <span class="ml-4 p-2 bg-brickred rounded text-white">{{ __('Registrieren') }}</span>
-                    </x-ui.main-menu-item>   
+                    </x-ui.main-menu-item>
                 @endguest
                 @auth
-                <button type="button"
-                    class="flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                    <span class="sr-only">View notifications</span>
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                        aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                    </svg>
-                </button>
+                    <button type="button"
+                        class="flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        <span class="sr-only">View notifications</span>
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                            aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                        </svg>
+                    </button>
 
-                <!-- Profile dropdown -->
-                <div>
-                  
-                </div>
-                <div class="relative ml-4 flex-shrink-0">
+                    <!-- Profile dropdown -->
                     <div>
-                        <button x-on:click="showMenu = !showMenu" type="button"
-                            class="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                            id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                            <span class="sr-only">Open user menu</span>
-                            <img class="h-8 w-8 rounded-full"
-                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                alt="">
-                        </button>
-                    </div>
 
-                    <div x-cloak x-show="showMenu" x-transition:enter="transition ease-out duration-100"
-                        x-transition:enter-start="transform opacity-0 scale-95"
-                        x-transition:enter-end="transform opacity-100 scale-100"
-                        x-transition:leave="transition ease-in duration-75"
-                        x-transition:leave-start="transform opacity-100 scale-100"
-                        x-tranistion:leave-end="transform opacity-0 scale-95"
-                        class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                        role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                        <!-- Active: "bg-gray-100", Not Active: "" -->
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                            id="user-menu-item-0">Your Profile</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                            id="user-menu-item-1">Settings</a>
-                        <form class="block px-4 py-2 text-sm text-gray-700" method="POST"
-                            action="{{ route('logout') }}" x-data>
-                            @csrf
-
-                            <x-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form>
                     </div>
-                </div>
+                    <div class="relative ml-4 flex-shrink-0">
+                        <div>
+                            <button x-on:click="showMenu = !showMenu" type="button"
+                                class="flex bg-white text-sm focus:outline-none focus:ring-2 focus:ring-brickred focus:ring-offset-2"
+                                id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                                <span class="sr-only">Open user menu</span>
+                                <div class="h-10 w-10">
+                                    <x-user-image :user="auth()->user()"></x-user-image>
+                                </div>
+                            </button>
+                        </div>
+
+                        <div x-cloak x-show="showMenu" x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="transform opacity-0 scale-95"
+                            x-transition:enter-end="transform opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-75"
+                            x-transition:leave-start="transform opacity-100 scale-100"
+                            x-tranistion:leave-end="transform opacity-0 scale-95"
+                            class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                            <div class="px-4 py-3" role="none">
+                                <p class="text-sm" role="none">{{ __('Angemeldet als') }}</p>
+                                <p class="truncate text-base font-bold text-gray-900" role="none">
+                                    {{ auth()->user()->name }}</p>
+                            </div>
+                            <div class="py-1" role="none">
+                                <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                                <a href="#" class="text-gray-700 group flex items-center px-4 py-2 text-sm"
+                                    role="menuitem" tabindex="-1" id="menu-item-0">
+                                    <x-icons.solid.profile-icon
+                                        class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                                    {{ __('Profil') }}
+                                </a>
+                                <a href="#" class="text-gray-700 group flex items-center px-4 py-2 text-sm"
+                                    role="menuitem" tabindex="-1" id="menu-item-1">
+                                    <x-icons.solid.envelope class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                                    {{ __('Nachrichten') }}
+                                </a>
+                                <a href="#" class="text-gray-700 group flex items-center px-4 py-2 text-sm"
+                                    role="menuitem" tabindex="-1" id="menu-item-0">
+                                    <x-icons.solid.camera-plus
+                                        class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                                    {{ __('Film vorstellen') }}
+                                </a>
+                            </div>
+                            @if (auth()->user()->hasPermissionTo('view administration'))
+                                <div class="py-1" role="none">
+                                    <a href="{{ route('nova.pages.login') }}"
+                                        class="text-gray-700 group flex items-center px-4 py-2 text-sm" role="menuitem"
+                                        tabindex="-1" id="menu-item-1">
+                                        <x-icons.solid.key class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                                        {{ __('Admin Tools') }}
+                                    </a>
+                                </div>
+                            @endif
+                            <form class="py-1" method="POST" action="{{ route('logout') }}" x-data>
+                                @csrf
+                                <a class="text-gray-700 group flex items-center px-4 py-2 text-sm"
+                                    href="{{ route('logout') }}" @click.prevent="$root.submit();">
+                                    <x-icons.solid.logout class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                                    {{ __('Abmelden') }}
+                                </a>
+                            </form>
+
+                        </div>
+                    </div>
                 @endauth
             </div>
         </div>

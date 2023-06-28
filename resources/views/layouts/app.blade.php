@@ -35,6 +35,7 @@
 <body class="font-sans antialiased">
     <x-banner />
     <x-notifications />
+    <x-dialog />
     <div class="min-h-screen bg-white dark:bg-gray-900">
         {{-- @livewire('navigation-menu') --}}
         <x-ui.navigation-bar />

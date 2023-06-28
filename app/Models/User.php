@@ -81,6 +81,11 @@ class User extends Authenticatable
         return $this->roles()->where('slug', 'admin')->exists();
     }
 
+    public function followed_topics()
+    {
+        return $this->belongsToMany(Topic::class, 'user_topic_follows');
+    }
+
     protected static function booted(): void
     {
         static::created(function (User $user) {

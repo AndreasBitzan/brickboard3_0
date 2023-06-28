@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Topic extends Model
 {
     use HasFactory;
-    use BroadcastsEvents;
 
     protected $fillable = [
         'id',
@@ -20,6 +19,7 @@ class Topic extends Model
         'messageboard_id',
         'posts_count',
         'sticky',
+        'locked',
         'moderation_state_id',
         'last_post_at',
         'topic_type_id',
@@ -62,17 +62,28 @@ class Topic extends Model
         return $this->belongsTo(User::class, 'last_user_id');
     }
 
-    public function broadCastOn(string $event): array
+    public function latestPost(): HasOne
     {
-        return [$this, $this->posts];
+        return $this->hasOne(Post::class)->latestOfMany();
+    }
+
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'user_topic_follows');
     }
 
     protected static function booted(): void
     {
         static::created(function (Topic $topic) {
             error_log('TOPIC WAS CREATED DISPACHT JOB OR ASSING BADGE?');
-
             Messageboard::where('id', $topic->messageboard_id)->incrementEach(['topics_count' => 1, 'posts_count' => 1], ['last_topic_id' => $topic->id]);
+            $topic->followers()->attach($topic->user_id);
+        });
+
+        static::deleted(function (Topic $topic) {
+            // TODO Make sure you clean up nicely
+            $messageboard = $topic->messageboard;
+            Messageboard::where('id', $topic->messageboard_id)->decrementEach(['topics_count' => 1, 'posts_count' => $topic->posts_count], ['last_topic_id' => $messageboard->latestTopic->id]);
         });
     }
 }

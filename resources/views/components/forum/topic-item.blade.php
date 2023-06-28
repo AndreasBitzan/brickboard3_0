@@ -11,6 +11,16 @@
         <p>{{ __("von:")  }} {{ $topic->author->name }}, {{ $topic->created_at->format('d.m.Y H:i') }}</p>
     </div>
     <div class="px-2 py-1 border-r flex justify-end items-center border-gray-200 space-x-8">
+        @if ($topic->locked)
+        <div class="flex items-center">
+            <x-icons.solid.lock class="w-6 h-6 mr-2" title="{{ __('Gesperrt') }}" />
+        </div>
+        @endif
+        @if ($topic->sticky)
+        <div class="flex items-center">
+            <x-icons.solid.pin class="w-6 h-6 mr-2" title="{{ __('Angepinnt') }}" />
+        </div>
+        @endif
         <div class="flex items-center">
             <x-icons.solid.eye class="w-6 h-6 mr-2" /><span>{{ $topic->view_count }}</span>
         </div>

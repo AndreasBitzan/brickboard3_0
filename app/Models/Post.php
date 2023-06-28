@@ -46,9 +46,6 @@ class Post extends Model
         });
 
         static::deleted(function (Post $post) {
-            error_log('DELETION CALLED');
-            // error_log(json_encode($post));
-            // TODO check if this post was the last post and change the ids in the connected topic
             Topic::where('id', $post->topic_id)->decrement('posts_count');
             Messageboard::where('id', $post->messageboard_id)->decrement('posts_count');
         });

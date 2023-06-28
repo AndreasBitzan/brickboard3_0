@@ -1,4 +1,32 @@
 <div>
+    <x-forum.topic-header>
+        {{ $topic->title }}
+        @auth
+        <x-slot name="buttons">
+            <div class="flex space-x-2">
+            
+                <x-basics.small-transparent-button wire:click="followTopic">
+                    @if(!$this->isFollower())
+                    <x-icons.solid.bell-slash class="w-4 h-4 mr-2" />
+                    {{ __("Benachrichtigungen deaktiviert") }}
+                    @else
+                    <x-icons.solid.bell-alert class="w-4 h-4 mr-2" />
+                    {{ __("Benachrichtigungen akiv") }}
+                    @endif
+                </x-basics.small-transparent-button>
+            
+            @if (auth()->user()->hasPermissionTo('topic moderation'))
+               @include('components.forum.topic-moderation-menu')
+            @endif
+            </div>
+        </x-slot>
+        @endauth
+    </x-forum.topic-header>
+    @if($topic->locked)
+    <div class="mb-4">
+    <x-basics.warning>{{ __("Dieses Thema ist gesperrt, du kannst keine Antwort posten.") }}</x-basics.warning>
+    </div>
+    @endif
     <ul class="flex flex-col space-y-4">
         @foreach ($posts as $post)
             <li wire:key="post-{{ $post->id }}">

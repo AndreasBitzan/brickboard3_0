@@ -80,6 +80,30 @@ return [
             'group' => 'User',
         ],
 
+        'topic moderation' => [
+            'display_name' => 'Moderate Topic',
+            'description' => 'Change stuff like pin, lock, etc.',
+            'group' => 'Topics',
+        ],
+
+        'lock topic' => [
+            'display_name' => 'Lock Topic',
+            'description' => 'Lock topic',
+            'group' => 'Topics',
+        ],
+
+        'pin topic' => [
+            'display_name' => 'Pin Topic',
+            'description' => 'Pin topic',
+            'group' => 'Topics',
+        ],
+
+        'delete topic' => [
+            'display_name' => 'Delete Topic',
+            'description' => 'Delete topic',
+            'group' => 'Topics',
+        ],
+
         'view roles' => [
             'display_name' => 'View roles',
             'description' => 'Can view roles',

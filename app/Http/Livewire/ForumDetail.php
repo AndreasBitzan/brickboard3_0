@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Http\Livewire\Traits\WithSorting;
 use App\Models\Messageboard;
 use App\Models\Topic;
 use Livewire\Component;
@@ -11,8 +10,6 @@ use Livewire\WithPagination;
 class ForumDetail extends Component
 {
     use WithPagination;
-    use WithSorting;
-
     public $messageboard;
     public $search;
 
@@ -23,9 +20,10 @@ class ForumDetail extends Component
 
     public function getRowsQueryProperty()
     {
+        // TODO FILTER BY MODERATION STATE
         $query = Topic::query()->where('messageboard_id', $this->messageboard->id);
 
-        return $this->applySorting($query);
+        return $query->orderBy('sticky', 'desc')->orderBy('created_at', 'desc');
     }
 
     public function getRowsProperty()

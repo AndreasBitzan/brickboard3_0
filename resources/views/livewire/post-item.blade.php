@@ -1,4 +1,4 @@
-<article class="grid grid-cols-[200px_auto]">
+<article class="grid grid-cols-[200px_auto] shadow">
     <aside class="bg-gray-200">
         <x-user-image :user="$post->author"></x-user-image>
         <a class="bg-brickred text-white p-2 w-full flex justify-center items-center" href="">
@@ -23,6 +23,15 @@
                 @endif
             </span>
             <span>
+                @can('update', $post)
+                    <button wire:click="$toggle('editPost')">
+                        @if ($editPost)
+                            <x-icons.solid.x-mark class="w-5 h-5 hover:text-gray-500" />
+                        @else
+                            <x-icons.solid.edit class="w-5 h-5 hover:text-gray-500" />
+                        @endif
+                    </button>
+                @endcan
                 @can('delete', $post)
                     <button wire:click='deletePost'>
                         <x-icons.solid.trash class="w-5 h-5 hover:text-gray-500" />
@@ -31,7 +40,22 @@
             </span>
         </header>
         <div class="py-4">
-            {!! $post->content !!}
+            @if ($editPost)
+                <div>
+                    <x-suneditor wire:model.defer="post.content">
+                    </x-suneditor>
+                    <div class="flex justify-end py-2">
+                        <x-basics.big-button type="button" wire:click="updatePost">
+                            <x-slot name="icon">
+                                <x-icons.paper-airplane class="w-5 h-5" />
+                            </x-slot>
+                            <span>{{ __('Absenden') }}</span>
+                        </x-basics.big-button>
+                    </div>
+                </div>
+            @else
+                {!! $post->content !!}
+            @endif
         </div>
     </div>
 </article>
