@@ -8,6 +8,11 @@
     <div class="pb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="ml-4 text-center text-sm text-gray-500 dark:text-gray-400 sm:text-right sm:ml-0">
+
+                <div class="py-12">
+                    @livewire('dark-mode-toggler')
+                </div>
+
                 Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
             </div>
         </div>

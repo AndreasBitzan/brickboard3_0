@@ -1,4 +1,4 @@
-<nav class="bg-white shadow" x-data="{ showMenu: false }">
+<nav class="bg-white dark:bg-slate-700 shadow" x-data="{ showMenu: false }">
     <div class="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
         <div class="flex h-16 justify-between">
             <div class="flex px-2 lg:px-0">
@@ -80,27 +80,30 @@
                             x-transition:leave="transition ease-in duration-75"
                             x-transition:leave-start="transform opacity-100 scale-100"
                             x-tranistion:leave-end="transform opacity-0 scale-95"
-                            class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white dark:bg-slate-600 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                             <div class="px-4 py-3" role="none">
-                                <p class="text-sm" role="none">{{ __('Angemeldet als') }}</p>
-                                <p class="truncate text-base font-bold text-gray-900" role="none">
+                                <p class="text-sm dark:text-gray-200" role="none">{{ __('Angemeldet als') }}</p>
+                                <p class="truncate text-base font-bold text-gray-900 dark:text-white" role="none">
                                     {{ auth()->user()->name }}</p>
                             </div>
                             <div class="py-1" role="none">
                                 <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                                <a href="#" class="text-gray-700 group flex items-center px-4 py-2 text-sm"
+                                <a href="#"
+                                    class="text-gray-700 dark:text-gray-200 group flex items-center px-4 py-2 text-sm"
                                     role="menuitem" tabindex="-1" id="menu-item-0">
                                     <x-icons.solid.profile-icon
                                         class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
                                     {{ __('Profil') }}
                                 </a>
-                                <a href="#" class="text-gray-700 group flex items-center px-4 py-2 text-sm"
+                                <a href="#"
+                                    class="text-gray-700 dark:text-gray-200 group flex items-center px-4 py-2 text-sm"
                                     role="menuitem" tabindex="-1" id="menu-item-1">
                                     <x-icons.solid.envelope class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
                                     {{ __('Nachrichten') }}
                                 </a>
-                                <a href="#" class="text-gray-700 group flex items-center px-4 py-2 text-sm"
+                                <a href="#"
+                                    class="text-gray-700 dark:text-gray-200 group flex items-center px-4 py-2 text-sm"
                                     role="menuitem" tabindex="-1" id="menu-item-0">
                                     <x-icons.solid.camera-plus
                                         class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
@@ -110,16 +113,19 @@
                             @if (auth()->user()->hasPermissionTo('view administration'))
                                 <div class="py-1" role="none">
                                     <a href="{{ route('nova.pages.login') }}"
-                                        class="text-gray-700 group flex items-center px-4 py-2 text-sm" role="menuitem"
-                                        tabindex="-1" id="menu-item-1">
+                                        class="text-gray-700 dark:text-gray-200 group flex items-center px-4 py-2 text-sm"
+                                        role="menuitem" tabindex="-1" id="menu-item-1">
                                         <x-icons.solid.key class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
                                         {{ __('Admin Tools') }}
                                     </a>
                                 </div>
                             @endif
+                            <div class="py-2" role="none">
+                                @livewire('dark-mode-toggler')
+                            </div>
                             <form class="py-1" method="POST" action="{{ route('logout') }}" x-data>
                                 @csrf
-                                <a class="text-gray-700 group flex items-center px-4 py-2 text-sm"
+                                <a class="text-gray-700 dark:text-gray-200 group flex items-center px-4 py-2 text-sm"
                                     href="{{ route('logout') }}" @click.prevent="$root.submit();">
                                     <x-icons.solid.logout class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
                                     {{ __('Abmelden') }}
