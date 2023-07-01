@@ -104,6 +104,30 @@ return [
             'group' => 'Topics',
         ],
 
+        'create badge' => [
+            'display_name' => 'Create Badge',
+            'description' => 'Create Badge',
+            'group' => 'Badges',
+        ],
+
+        'update badge' => [
+            'display_name' => 'Update Badge',
+            'description' => 'Update Badge',
+            'group' => 'Badges',
+        ],
+
+        'Delete badge' => [
+            'display_name' => 'Delete Badge',
+            'description' => 'Delete Badge',
+            'group' => 'Badges',
+        ],
+
+        'view secret badges' => [
+            'display_name' => 'View secret badges',
+            'description' => 'View secret badges',
+            'group' => 'Badges',
+        ],
+
         'view roles' => [
             'display_name' => 'View roles',
             'description' => 'Can view roles',

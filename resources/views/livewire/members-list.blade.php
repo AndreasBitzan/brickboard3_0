@@ -10,7 +10,7 @@
     <ul class="grid grid-cols-5">
         @forelse ($users as $user)
             <li wire:key="member-{{ $user->id }}">
-                <a href="#">
+                <a href="{{ route('user.profile',$user) }}">
                     <x-user-image :user="$user" zoom />
                 </a>
             </li>

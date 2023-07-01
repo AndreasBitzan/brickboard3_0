@@ -2,28 +2,30 @@
 
 namespace App\Nova;
 
-use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Spatie\NovaTranslatable\Translatable;
 
-class News extends Resource
+class Badge extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\News>
+     * @var class-string<\App\Models\Badge>
      */
-    public static $model = \App\Models\News::class;
+    public static $model = \App\Models\Badge::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'title';
 
     /**
      * The columns that should be searched.
@@ -31,8 +33,17 @@ class News extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id', 'title', 'description',
     ];
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if (!auth()->user()->hasPermissionTo('view secret badges')) {
+            return $query->where('secret', false);
+        }
+
+        return $query;
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -44,11 +55,13 @@ class News extends Resource
         return [
             ID::make()->sortable(),
             Translatable::make([
-                Text::make('title'),
-                Text::make('short_description'),
+                Text::make(__('Title'), 'title')->sortable()->required(),
+                Textarea::make(__('Description'), 'description')->required(),
             ]),
-            Image::make('cover_image')->disk('public')->path('news/'.now('Europe/Vienna')->year.'/'.now('Europe/Vienna')->month),
-            BelongsTo::make('User', 'author', User::class)->default(auth()->id()),
+            Boolean::make(__('Is secret'), 'secret')->default(false),
+            Image::make(__('Badge image'), 'image_path')->disk('public')
+                ->path('badges/'),
+            BelongsToMany::make(__('Users'), 'users', User::class)->hideFromIndex(),
         ];
     }
 

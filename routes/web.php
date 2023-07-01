@@ -2,6 +2,7 @@
 
 use App\Models\Messageboard;
 use App\Models\Topic;
+use App\Models\User;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 
@@ -33,8 +34,6 @@ Route::middleware([
 ])->group(function () {
     Route::localized(function () {
         Route::get('/forum/{messageboard:slug}/'.Lang::uri('neues-thema'), function (Messageboard $messageboard) {
-            error_log('THIS IS NOT CALLED??');
-            // TODO Fix this not being called pls
             return view('create-topic')->with(['messageboard' => $messageboard]);
         })->name('forum.create-topic');
     });
@@ -58,6 +57,12 @@ Route::localized(function () {
     Route::get('/'.Lang::uri('mitglieder'), function () {
         return view('members');
     })->name('members');
+});
+
+Route::localized(function () {
+    Route::get('/'.Lang::uri('profil').'/{user:slug}', function (User $user) {
+        return view('user-profile')->with(['user' => $user]);
+    })->name('user.profile');
 });
 
 Route::fallback(\CodeZero\LocalizedRoutes\Controllers\FallbackController::class);

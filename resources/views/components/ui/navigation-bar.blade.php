@@ -98,12 +98,12 @@
 
                             <div class="px-4 py-3" role="none">
                                 <p class="text-sm dark:text-gray-200" role="none">{{ __('Angemeldet als') }}</p>
-                                <p class="truncate text-base font-bold text-gray-900 dark:text-white" role="none">
-                                    {{ auth()->user()->name }}</p>
+                                <a href="{{ route('user.profile', auth()->user()) }}" class="truncate text-base font-bold text-gray-900 dark:text-white" role="none">
+                                    {{ auth()->user()->name }}</a>
                             </div>
                             <div class="py-1" role="none">
                                 <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                                <a href="#"
+                                <a href="{{ route('user.profile', auth()->user()) }}"
                                     class="text-gray-700 dark:text-gray-200 group flex items-center px-4 py-2 text-sm"
                                     role="menuitem" tabindex="-1" id="menu-item-0">
                                     <x-icons.solid.profile-icon

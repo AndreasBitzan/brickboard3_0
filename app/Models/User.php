@@ -29,6 +29,16 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'failed_attempts',
+        'locked_at',
+        'main_badge',
+        'sign_in_count',
+        'current_sign_in_at',
+        'last_sign_in_at',
+        'current_sign_in_ip',
+        'last_sign_in_ip',
+        'slug',
+        'activated',
     ];
 
     /**
@@ -50,6 +60,9 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'locket_at' => 'datetime',
+        'current_sign_in_at' => 'datetime',
+        'last_sign_in_at' => 'datetime',
     ];
 
     /**
@@ -60,6 +73,13 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    protected $with = ['main_badge'];
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     public function news()
     {
@@ -84,6 +104,21 @@ class User extends Authenticatable
     public function followed_topics()
     {
         return $this->belongsToMany(Topic::class, 'user_topic_follows');
+    }
+
+    public function badges()
+    {
+        return $this->belongsToMany(Badge::class);
+    }
+
+    public function main_badge()
+    {
+        return $this->belongsTo(Badge::class, 'main_badge');
+    }
+
+    public function user_details()
+    {
+        return $this->hasOne(UserDetail::class);
     }
 
     protected static function booted(): void
