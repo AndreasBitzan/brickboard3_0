@@ -14,7 +14,7 @@
                 </x-ui.main-menu-item>
                 <x-ui.main-menu-item href="">
                     <x-icons.solid.camera class="w-4 h-4 mr-2" />
-                    {{ __('Filme') }}
+                    {{ __('Brickfilme') }}
                 </x-ui.main-menu-item>
                 <x-ui.main-menu-item href="{{ route('members') }}">
                     <img src="{{ asset('images/lego_members_zoomed.svg') }}"
@@ -46,6 +46,7 @@
                     <x-ui.main-menu-item href="{{ route('register') }}" :active="request()->routeIs('*.register')">
                         <span class="ml-4 p-2 bg-brickred rounded text-white">{{ __('Registrieren') }}</span>
                     </x-ui.main-menu-item>
+
                 @endguest
                 @auth
                     <button type="button"
@@ -57,13 +58,10 @@
                                 d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                         </svg>
                     </button>
-
-                    <!-- Profile dropdown -->
+                @endauth
+                <div class="relative ml-4 flex-shrink-0">
                     <div>
-
-                    </div>
-                    <div class="relative ml-4 flex-shrink-0">
-                        <div>
+                        @auth
                             <button x-on:click="showMenu = !showMenu" type="button"
                                 class="flex bg-white text-sm focus:outline-none focus:ring-2 focus:ring-brickred focus:ring-offset-2"
                                 id="user-menu-button" aria-expanded="false" aria-haspopup="true">
@@ -72,16 +70,32 @@
                                     <x-user-image :user="auth()->user()"></x-user-image>
                                 </div>
                             </button>
-                        </div>
+                        @endauth
+                        @guest
 
-                        <div x-cloak x-show="showMenu" x-transition:enter="transition ease-out duration-100"
-                            x-transition:enter-start="transform opacity-0 scale-95"
-                            x-transition:enter-end="transform opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-75"
-                            x-transition:leave-start="transform opacity-100 scale-100"
-                            x-tranistion:leave-end="transform opacity-0 scale-95"
-                            class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white dark:bg-slate-600 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                            role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                            <button type="button" x-on:click="showMenu = !showMenu"
+                                class="flex  items-center h-full rounded bg-gray-100 dark:bg-slate-600 text-gray-400 dark:text-white hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+                                id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                <span class="sr-only">Open options</span>
+                                <svg class="h-9 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path
+                                        d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM10 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM11.5 15.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0z" />
+                                </svg>
+                            </button>
+                        @endguest
+                    </div>
+
+                    <div x-cloak x-show="showMenu" x-transition:enter="transition ease-out duration-100"
+                        x-transition:enter-start="transform opacity-0 scale-95"
+                        x-transition:enter-end="transform opacity-100 scale-100"
+                        x-transition:leave="transition ease-in duration-75"
+                        x-transition:leave-start="transform opacity-100 scale-100"
+                        x-tranistion:leave-end="transform opacity-0 scale-95"
+                        class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white dark:bg-slate-600 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                        @auth
+
+
                             <div class="px-4 py-3" role="none">
                                 <p class="text-sm dark:text-gray-200" role="none">{{ __('Angemeldet als') }}</p>
                                 <p class="truncate text-base font-bold text-gray-900 dark:text-white" role="none">
@@ -120,9 +134,35 @@
                                     </a>
                                 </div>
                             @endif
-                            <div class="py-2" role="none">
-                                @livewire('dark-mode-toggler')
+                        @endauth
+                        <div class="py-2" role="none">
+                            @livewire('dark-mode-toggler')
+                        </div>
+
+                        <div class="py-1" role="none">
+                            @if (Route::isLocalized() || Route::isFallback())
+                                <ul>
+                                    @foreach (LocaleConfig::getLocales() as $locale)
+                                        @if (!App::isLocale($locale))
+                                            <li>
+                                                <a href="{{ Route::localizedUrl($locale) }}"
+                                                    class="text-gray-700 dark:text-gray-200 group flex items-center px-4 py-2 text-sm"
+                                                    role="menuitem" tabindex="-1" id="menu-item-1">
+                                                    @if (App::isLocale('de'))
+                                                        <x-icons.flags.uk class="mr-3 h-5 w-5" />
+                                                        <span>{{ __('English') }}</span>
+                                                    @else
+                                                        <x-icons.flags.ge class="mr-3 h-5 w-5" />
+                                                        <span>{{ __('Deutsch') }}</span>
+                                                    @endif
+                                                </a>
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            @endif
                             </div>
+                        @auth
                             <form class="py-1" method="POST" action="{{ route('logout') }}" x-data>
                                 @csrf
                                 <a class="text-gray-700 dark:text-gray-200 group flex items-center px-4 py-2 text-sm"
@@ -131,10 +171,10 @@
                                     {{ __('Abmelden') }}
                                 </a>
                             </form>
-
-                        </div>
+                        @endauth
                     </div>
-                @endauth
+                </div>
+
             </div>
         </div>
     </div>

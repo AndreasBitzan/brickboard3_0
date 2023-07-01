@@ -16,9 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('landing-page');
+Route::localized(function () {
+    Route::get('/', function () {
+        return view('landing-page');
+    })->name('home');
 });
+
+// Route::get('/', function () {
+//     return view('landing-page');
+// })->name('home');
 
 Route::middleware([
     'auth:sanctum',
@@ -31,12 +37,6 @@ Route::middleware([
             // TODO Fix this not being called pls
             return view('create-topic')->with(['messageboard' => $messageboard]);
         })->name('forum.create-topic');
-    });
-
-    Route::localized(function () {
-        Route::get('/dashboard', function () {
-            return view('dashboard');
-        })->name('dashboard');
     });
 });
 
@@ -59,3 +59,5 @@ Route::localized(function () {
         return view('members');
     })->name('members');
 });
+
+Route::fallback(\CodeZero\LocalizedRoutes\Controllers\FallbackController::class);
