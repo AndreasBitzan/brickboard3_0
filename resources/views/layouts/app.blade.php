@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="{{ session('darkMode', 'false') ? 'dark':'' }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="{{ session('darkMode', 'false') ? 'dark' : '' }}">
 
 <head>
     <meta charset="utf-8">
@@ -39,15 +39,22 @@
     <div class="min-h-screen bg-white dark:bg-gray-900">
         {{-- @livewire('navigation-menu') --}}
         <x-ui.navigation-bar />
-        {{-- @livewire('notification-center') --}}
-        <!-- Page Heading -->
-        @if (isset($header))
-            <header class="bg-white dark:bg-gray-800 shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
+        @auth
+            @if (auth()->user()->moderation_state_id == 2)
+                <div class="max-w-7xl mx-auto py-1 px-4 sm:px-6 lg:px-8">
+                    <x-basics.warning>
+                        {{ __('Dein Profil muss noch von einem Admin bestätigt werden. Bis dahin kannst du alles tun, deine Beiträge werden nach der Bestätigung für alle sichtbar!') }}
+                    </x-basics.warning>
                 </div>
-            </header>
-        @endif
+            @elseif(auth()->user()->moderation_state_id == 3)
+            <div class="max-w-7xl mx-auto py-1 px-4 sm:px-6 lg:px-8">
+                <x-basics.warning>
+                    {{ __('Du bist im Forum blockiert, du kannst nicht mehr posten.') }}
+                </x-basics.warning>
+            </div>
+            @endif
+        @endauth
+        {{-- @livewire('notification-center') --}}
 
         <!-- Page Content -->
         <main>

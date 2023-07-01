@@ -2,12 +2,14 @@
     @auth
     <div class="flex justify-between pb-4">
         <span>{{ __("Themen als gelesen markieren") }}</span>
+        @can('create', App\Post::class)
         <x-basics.big-button link href="{{ route('forum.create-topic', ['messageboard'=>$messageboard]) }}">
             <x-slot name="icon">
                 <x-icons.plus class="-ml-0.5 h-5 w-5" />
             </x-slot>
             {{ __("Thema erstellen") }}
         </x-basics.big-button>
+        @endcan
     </div>
     @endauth
     <x-forum.messageboard-heading>{{ $messageboard->name }}</x-forum.messageboard-heading>

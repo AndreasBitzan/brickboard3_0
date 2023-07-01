@@ -1,28 +1,21 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Profile\Tab;
 
 use App\Http\Enums\ModerationStateEnum;
-use App\Models\Messageboard;
 use App\Models\Topic;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ForumDetail extends Component
+class Posts extends Component
 {
     use WithPagination;
-    public $messageboard;
-    public $search;
-
-    public function mount(Messageboard $messageboard)
-    {
-        $this->messageboard = $messageboard;
-    }
+    public $user;
 
     public function getRowsQueryProperty()
     {
         // TODO FILTER BY MODERATION STATE
-        $query = Topic::query()->where('messageboard_id', $this->messageboard->id);
+        $query = Topic::query()->where('user_id', $this->user->id);
 
         if (!auth()->user()->hasPermissionTo('topic moderation')) {
             $query->where('moderation_state_id', ModerationStateEnum::APPROVED->value);
@@ -33,11 +26,11 @@ class ForumDetail extends Component
 
     public function getRowsProperty()
     {
-        return $this->rowsQuery->paginate(3);
+        return $this->rowsQuery->paginate(2, ['*'], 'posts');
     }
 
     public function render()
     {
-        return view('livewire.forum-detail', ['topics' => $this->rows]);
+        return view('livewire.profile.tab.posts', ['topics' => $this->rows]);
     }
 }

@@ -43,11 +43,13 @@ class Post extends Model
             error_log(json_encode($post));
             Topic::where('id', $post->topic_id)->incrementEach(['posts_count' => 1], ['last_post_at' => $post->created_at, 'last_user_id' => $post->user_id]);
             Messageboard::where('id', $post->messageboard_id)->increment('posts_count');
+            UserDetail::where('user_id', $post->user_id)->increment('posts_count');
         });
 
         static::deleted(function (Post $post) {
             Topic::where('id', $post->topic_id)->decrement('posts_count');
             Messageboard::where('id', $post->messageboard_id)->decrement('posts_count');
+            UserDetail::where('user_id', $post->user_id)->decrement('posts_count');
         });
     }
 }

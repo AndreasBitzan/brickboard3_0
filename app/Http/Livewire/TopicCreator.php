@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Enums\ModerationStateEnum;
 use App\Models\Messageboard;
 use App\Models\Post;
 use App\Models\Topic;
@@ -21,13 +22,6 @@ class TopicCreator extends Component
         'title' => 'required',
         'content' => 'required',
     ];
-
-    public function updated($value, $key)
-    {
-        error_log('UDPATED');
-        error_log(json_encode($value));
-        error_log(json_encode($key));
-    }
 
     public function mount(Messageboard $messageboard)
     {
@@ -50,6 +44,12 @@ class TopicCreator extends Component
             $this->notification()->error(__('Bitte gib deinen Inhalt ein!'));
         }
 
+        if (auth()->user()->moderation_state_id == ModerationStateEnum::BLOCKED->value) {
+            $this->notification()->error(__('Du bist blockiert und kannst keine Beiträge mehr posten'));
+
+            return;
+        }
+
         $this->validate();
 
         $topic_created = Topic::create([
@@ -58,7 +58,7 @@ class TopicCreator extends Component
             'title' => $this->title,
             'slug' => Str::slug($this->title),
             'messageboard_id' => $this->messageboard->id,
-            'moderation_state_id' => 1,
+            'moderation_state_id' => auth()->user()->moderation_state_id,
         ]);
 
         Post::create([
@@ -66,7 +66,7 @@ class TopicCreator extends Component
             'content' => $this->content,
             'topic_id' => $topic_created->id,
             'messageboard_id' => $this->messageboard->id,
-            'moderation_state_id' => 1,
+            'moderation_state_id' => auth()->user()->moderation_state_id,
         ]);
         $this->notification()->success(__('Thema erfolgreich erstellt'));
 

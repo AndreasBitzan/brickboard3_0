@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Http\Enums\ModerationStateEnum;
 use App\Models\Post;
 use App\Models\User;
 
@@ -28,7 +29,7 @@ class PostPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $user->moderation_state_id != ModerationStateEnum::BLOCKED->value;
     }
 
     /**
@@ -36,7 +37,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        return $user->id == $post->user_id;
+        return $user->id == $post->user_id && $user->moderation_state_id != ModerationStateEnum::BLOCKED->value;
     }
 
     /**
@@ -44,7 +45,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return (bool) $user->id == $post->user_id || $user->isModerator();
+        return (bool) $user->isModerator();
     }
 
     /**

@@ -41,5 +41,16 @@
     "Nachrichten": "Messages",
     "Film vorstellen": "Upload Brickfilm",
     "Abmelden": "Sign out",
-    "Brickfilme": "Brickfilms"
+    "Brickfilme": "Brickfilms",
+    "Beiträge": "Posts",
+    "Administrator": "Admin",
+    "Mitglied seit": "Member since",
+    "Keine Badge gewählt": "No badge chosen",
+    "Hell": "Bright",
+    "Dunkel": "Dark",
+    "Einstellungen": "Settings",
+    "Du bist blockiert und kannst keine Beiträge mehr posten":"You are blocked and cannot post anymore",
+    "WARTEND": "PENDING",
+    "Dein Profil muss noch von einem Admin bestätigt werden. Bis dahin kannst du alles tun, deine Beiträge werden nach der Bestätigung für alle sichtbar!": "Your profile has to be confirmed by an admin. You can already do everything, but your posts become visible to others after the confirmation!",
+    "Du bist im Forum blockiert, du kannst nicht mehr posten.": "You are blocked. You cannot post anything."
  }

@@ -12,22 +12,17 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $users =
-                [
-                    [
-                        'name' => 'A&M Studios',
-                        'email' => 'andreas.bitzan@gmail.com',
-                        'password' => bcrypt('P@ssw0rd'),
-                        'slug' => 'a-u-m-studios',
-                    ],
-                    [
-                        'name' => 'Testuser',
-                        'slug' => 'testuser',
-                        'email' => 'test@gmail.com',
-                        'password' => bcrypt('P@ssw0rd'),
-                    ],
-                ];
-
-        User::insert($users);
+        User::create([
+            'name' => 'A&M Studios',
+            'email' => 'andreas.bitzan@gmail.com',
+            'password' => bcrypt('P@ssw0rd'),
+            'slug' => 'a-u-m-studios',
+        ]);
+        User::create([
+            'name' => 'Testuser',
+            'slug' => 'testuser',
+            'email' => 'test@gmail.com',
+            'password' => bcrypt('P@ssw0rd'),
+        ]);
     }
 }

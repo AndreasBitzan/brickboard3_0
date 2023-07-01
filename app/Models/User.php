@@ -31,7 +31,7 @@ class User extends Authenticatable
         'password',
         'failed_attempts',
         'locked_at',
-        'main_badge',
+        'main_badge_id',
         'sign_in_count',
         'current_sign_in_at',
         'last_sign_in_at',
@@ -101,9 +101,19 @@ class User extends Authenticatable
         return $this->roles()->where('slug', 'admin')->exists();
     }
 
+    public function isAdminTeam(): bool
+    {
+        return $this->isAdmin() || $this->isSuperAdmin() || $this->isModerator();
+    }
+
     public function followed_topics()
     {
         return $this->belongsToMany(Topic::class, 'user_topic_follows');
+    }
+
+    public function topics()
+    {
+        return $this->hasMany(Topic::class);
     }
 
     public function badges()
@@ -113,7 +123,7 @@ class User extends Authenticatable
 
     public function main_badge()
     {
-        return $this->belongsTo(Badge::class, 'main_badge');
+        return $this->belongsTo(Badge::class, 'main_badge_id');
     }
 
     public function user_details()
@@ -121,12 +131,26 @@ class User extends Authenticatable
         return $this->hasOne(UserDetail::class);
     }
 
+    public function moderation_state()
+    {
+        return $this->belongsTo(ModerationState::class);
+    }
+
     protected static function booted(): void
     {
         static::created(function (User $user) {
             $standardRole = Role::where('slug', 'regular')->first();
             if ($standardRole) {
-                $user->sync([$standardRole->id]);
+                $user->roles()->sync([$standardRole->id]);
+            }
+
+            UserDetail::create(['user_id' => $user->id, 'latest_activity_at' => now(), 'last_seen_at' => now()]);
+        });
+
+        static::updated(function (User $user) {
+            if ($user->getChanges()['moderation_state_id']) {
+                Topic::where('user_id', $user->id)->update(['moderation_state_id' => $user->getChanges()['moderation_state_id']]);
+                Post::where('user_id', $user->id)->update(['moderation_state_id' => $user->getChanges()['moderation_state_id']]);
             }
         });
     }

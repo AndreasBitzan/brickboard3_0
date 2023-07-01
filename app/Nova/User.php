@@ -2,7 +2,9 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
+use App\Nova\ModerationState as NovaModerationState;
+use Laravel\Nova\Fields\Badge;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -44,6 +46,18 @@ class User extends Resource
         return [
             ID::make()->sortable(),
             Text::make('Username', 'name'),
+            Badge::make(__('Moderation status'), function () {
+                return $this->moderation_state_id;
+            })->map([
+                1 => 'success',
+                2 => 'warning',
+                3 => 'danger',
+            ])->labels([
+                1 => __('Approved'),
+                2 => __('Pending approval'),
+                3 => __('Blocked'),
+            ])->withIcons(),
+            BelongsTo::make(__('Moderation state'), 'moderation_state', NovaModerationState::class)->hideFromIndex(),
             HasMany::make('News', 'news', News::class),
         ];
     }

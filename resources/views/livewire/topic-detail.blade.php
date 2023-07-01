@@ -2,30 +2,30 @@
     <x-forum.topic-header>
         {{ $topic->title }}
         @auth
-        <x-slot name="buttons">
-            <div class="flex space-x-2">
-            
-                <x-basics.small-transparent-button wire:click="followTopic">
-                    @if(!$this->isFollower())
-                    <x-icons.solid.bell-slash class="w-4 h-4 mr-2" />
-                    {{ __("Benachrichtigungen deaktiviert") }}
-                    @else
-                    <x-icons.solid.bell-alert class="w-4 h-4 mr-2" />
-                    {{ __("Benachrichtigungen akiv") }}
+            <x-slot name="buttons">
+                <div class="flex space-x-2">
+
+                    <x-basics.small-transparent-button wire:click="followTopic">
+                        @if (!$this->isFollower())
+                            <x-icons.solid.bell-slash class="w-4 h-4 mr-2" />
+                            {{ __('Benachrichtigungen deaktiviert') }}
+                        @else
+                            <x-icons.solid.bell-alert class="w-4 h-4 mr-2" />
+                            {{ __('Benachrichtigungen akiv') }}
+                        @endif
+                    </x-basics.small-transparent-button>
+
+                    @if (auth()->user()->hasPermissionTo('topic moderation'))
+                        @include('components.forum.topic-moderation-menu')
                     @endif
-                </x-basics.small-transparent-button>
-            
-            @if (auth()->user()->hasPermissionTo('topic moderation'))
-               @include('components.forum.topic-moderation-menu')
-            @endif
-            </div>
-        </x-slot>
+                </div>
+            </x-slot>
         @endauth
     </x-forum.topic-header>
-    @if($topic->locked)
-    <div class="mb-4">
-    <x-basics.warning>{{ __("Dieses Thema ist gesperrt, du kannst keine Antwort posten.") }}</x-basics.warning>
-    </div>
+    @if ($topic->locked)
+        <div class="mb-4">
+            <x-basics.warning>{{ __('Dieses Thema ist gesperrt, du kannst keine Antwort posten.') }}</x-basics.warning>
+        </div>
     @endif
     <ul class="flex flex-col space-y-4">
         @foreach ($posts as $post)
@@ -35,17 +35,19 @@
         @endforeach
     </ul>
     <div class="flex justify-end items-center py-4">
-        <x-basics.big-button wire:click="$toggle('edit')">
-            <x-slot name="icon">
-                @if ($edit)
-                    <x-icons.x-mark class="h-5 w-5" />
-                    <span>{{ __('Abbrechen') }}</span>
-                @else
-                    <x-icons.solid.arrow-uturn-left class="h-5 w-5" />
-                    <span>{{ __('Antworten') }}</span>
-                @endif
-            </x-slot>
-        </x-basics.big-button>
+        @can('create', App\Post::class)
+            <x-basics.big-button wire:click="$toggle('edit')">
+                <x-slot name="icon">
+                    @if ($edit)
+                        <x-icons.x-mark class="h-5 w-5" />
+                        <span>{{ __('Abbrechen') }}</span>
+                    @else
+                        <x-icons.solid.arrow-uturn-left class="h-5 w-5" />
+                        <span>{{ __('Antworten') }}</span>
+                    @endif
+                </x-slot>
+            </x-basics.big-button>
+        @endcan
     </div>
     @if ($edit)
         <div>
@@ -57,7 +59,7 @@
                     <x-slot name="icon">
                         <x-icons.paper-airplane class="w-5 h-5" />
                     </x-slot>
-                    <span>{{ __("Absenden") }}</span>
+                    <span>{{ __('Absenden') }}</span>
                 </x-basics.big-button>
             </div>
         </div>
