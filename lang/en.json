@@ -52,5 +52,10 @@
     "Du bist blockiert und kannst keine Beiträge mehr posten":"You are blocked and cannot post anymore",
     "WARTEND": "PENDING",
     "Dein Profil muss noch von einem Admin bestätigt werden. Bis dahin kannst du alles tun, deine Beiträge werden nach der Bestätigung für alle sichtbar!": "Your profile has to be confirmed by an admin. You can already do everything, but your posts become visible to others after the confirmation!",
-    "Du bist im Forum blockiert, du kannst nicht mehr posten.": "You are blocked. You cannot post anything."
+    "Du bist im Forum blockiert, du kannst nicht mehr posten.": "You are blocked. You cannot post anything.",
+    "Ändere dein Profilbild": "Change your profile picture",
+    "Lade ein Bild hoch": "Upload an image",
+    "JPG, PNG, GIF bis zu 5MB": "JPG, PNG, GIF, up to 5MB",
+    "Am besten Seitenverhältnis 1:1": "Aspect ratio 1:1",
+    "Speichern": "Save"
  }

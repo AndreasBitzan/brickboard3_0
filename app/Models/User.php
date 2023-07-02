@@ -148,7 +148,7 @@ class User extends Authenticatable
         });
 
         static::updated(function (User $user) {
-            if ($user->getChanges()['moderation_state_id']) {
+            if (isset($user->getChanges()['moderation_state_id'])) {
                 Topic::where('user_id', $user->id)->update(['moderation_state_id' => $user->getChanges()['moderation_state_id']]);
                 Post::where('user_id', $user->id)->update(['moderation_state_id' => $user->getChanges()['moderation_state_id']]);
             }
