@@ -1,4 +1,4 @@
-<div>
+<div class="p-4">
     <ul class="flex flex-col space-y-2">
         @forelse ($topics as $topic)
             <li wire:key="topic-{{ $topic->id }}" class="hover:bg-gray-50">
