@@ -1,4 +1,4 @@
-<nav class="bg-white dark:bg-slate-700 shadow" x-data="{ showMenu: false }">
+<nav class="bg-white dark:bg-slate-700 shadow" x-data="{ showMenu: false }" x-on:click.away="showMenu=false">
     <div class="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
         <div class="flex h-16 justify-between">
             <div class="flex px-2 lg:px-0">
@@ -91,7 +91,7 @@
                         x-transition:leave="transition ease-in duration-75"
                         x-transition:leave-start="transform opacity-100 scale-100"
                         x-tranistion:leave-end="transform opacity-0 scale-95"
-                        class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white dark:bg-slate-600 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        class="absolute right-0 z-30 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white dark:bg-slate-600 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                         role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                         @auth
 
