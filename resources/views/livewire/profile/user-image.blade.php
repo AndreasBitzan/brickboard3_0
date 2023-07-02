@@ -1,14 +1,13 @@
 <aside class="bg-gray-200 dark:bg-slate-600 dark:text-white">
     <div class="relative">
         @auth
-            @if (auth()->id() == $user->id)
+            @if (auth()->id() == $user->id && request()->routeIs('*.user.profile'))
                 <button type="button" wire:click="$emitTo('profile.profile-pic-upload-modal','openModal')"
-                    class="absolute top-2 right-2 z-10 bg-slate-400 rounded p-1">
+                    class="absolute top-2 right-2 z-20 bg-slate-400 rounded p-1">
                     <x-icons.solid.edit class="h-6 w-6" />
                 </button>
             @endif
         @endauth
-
         <x-user-image :user="$user"></x-user-image>
     </div>
     <a class="bg-brickred text-white p-2 w-full flex justify-center items-center" href="">

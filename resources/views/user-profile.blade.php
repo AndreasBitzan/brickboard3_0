@@ -1,5 +1,6 @@
 <x-app-layout> 
-    @livewire('profile.profile-pic-upload-modal',['user'=>$user])
+    <livewire:profile.profile-pic-upload-modal :user="$user" wire:key="profilePicModal" />    
+    <livewire:profile.profile-banner-upload-modal :user="$user" wire:key='bannerModal' />
     <div class="pb-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 h-full">
             @livewire('profile.user-banner', ['user' => $user])

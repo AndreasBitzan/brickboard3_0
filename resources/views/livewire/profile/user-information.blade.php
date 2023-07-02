@@ -1,4 +1,4 @@
-<div>
+<div class="h-full flex flex-col">
     <div class="border-b border-gray-200 dark:border-black sm:flex sm:items-center sm:justify-between w-full p-4">
         <h3 class="text-2xl font-semibold leading-6 text-gray-900 dark:text-white">{{ $user->name }}</h3>
         <div class="inline-flex space-x-4">
@@ -44,7 +44,7 @@
             </nav>
         </div>
     </div>
-    <div class="p-2">
+    <div class="h-full">
         @if ($tab == 'badges')
             @livewire('profile.tab.badges', ['user' => $user])
         @elseif($tab == 'brickfilms')

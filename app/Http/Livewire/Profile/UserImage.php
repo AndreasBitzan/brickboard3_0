@@ -8,7 +8,7 @@ class UserImage extends Component
 {
     public $user;
 
-    protected $listener = ['refreshImage' => '$refresh'];
+    protected $listeners = ['refreshImage' => '$refresh'];
 
     public function render()
     {

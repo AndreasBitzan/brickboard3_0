@@ -14,10 +14,9 @@ class Posts extends Component
 
     public function getRowsQueryProperty()
     {
-        // TODO FILTER BY MODERATION STATE
         $query = Topic::query()->where('user_id', $this->user->id);
 
-        if (!auth()->user()->hasPermissionTo('topic moderation')) {
+        if (!auth()->user() || !auth()->user()->hasPermissionTo('topic moderation')) {
             $query->where('moderation_state_id', ModerationStateEnum::APPROVED->value);
         }
 

@@ -24,7 +24,7 @@ class ForumDetail extends Component
         // TODO FILTER BY MODERATION STATE
         $query = Topic::query()->where('messageboard_id', $this->messageboard->id);
 
-        if (!auth()->user()->hasPermissionTo('topic moderation')) {
+        if (!auth()->user() || !auth()->user()->hasPermissionTo('topic moderation')) {
             $query->where('moderation_state_id', ModerationStateEnum::APPROVED->value);
         }
 

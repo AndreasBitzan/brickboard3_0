@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Enums\ModerationStateEnum;
 use App\Http\Livewire\Traits\WithSorting;
 use App\Models\User;
 use Livewire\Component;
@@ -24,6 +25,10 @@ class MembersList extends Component
                 $query->where('name', 'like', '%'.$this->search.'%');
             })
         ;
+
+        if (!auth()->user() || !auth()->user()->isAdminTeam()) {
+            $query->where('moderation_state_id', ModerationStateEnum::APPROVED->value);
+        }
 
         return $this->applySorting($query);
     }
