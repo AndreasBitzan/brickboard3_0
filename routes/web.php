@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\TopicController;
 use App\Models\Messageboard;
-use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
@@ -47,9 +47,7 @@ Route::localized(function () {
         Route::get('/{messageboard:slug}', function (Messageboard $messageboard) {
             return view('forum-detail')->with(['messageboard' => $messageboard]);
         })->name('forum.detail');
-        Route::get('/{messageboard:slug}/{topic:slug}', function (Messageboard $messageboard, Topic $topic) {
-            return view('topic-detail')->with(['messageboard' => $messageboard, 'topic' => $topic]);
-        })->name('topic.detail');
+        Route::get('/{messageboard:slug}/{topic:slug}', [TopicController::class, 'show'])->name('topic.detail');
     });
 });
 

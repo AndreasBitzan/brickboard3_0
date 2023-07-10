@@ -4,9 +4,7 @@
     <div class="h-full bg-gray-400 block">
     </div>
     <div class="text-gray-900 p-2 flex items-center justify-center">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-auto h-full">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
-          </svg>
+        <x-icons.solid.burger @class(['w-auto h-full', 'text-brickred' => !$read]) />
     </div>
     <div class="flex flex-col justify-center px-2 py-1 border-l border-gray-200">
         <h2 class="text-xl font-semibold hover:text-brickred">

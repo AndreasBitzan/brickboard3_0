@@ -44,6 +44,7 @@ class Post extends Model
             Topic::where('id', $post->topic_id)->incrementEach(['posts_count' => 1], ['last_post_at' => $post->created_at, 'last_user_id' => $post->user_id]);
             Messageboard::where('id', $post->messageboard_id)->increment('posts_count');
             UserDetail::where('user_id', $post->user_id)->increment('posts_count');
+            ReadState::where('topic_id', $post->topic_id)->where('user_id', '!=', $post->user_id)->increment('unread_posts_count');
         });
 
         static::deleted(function (Post $post) {

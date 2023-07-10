@@ -11,7 +11,7 @@ class TopicItem extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public Topic $topic)
+    public function __construct(public Topic $topic, public bool $read = true)
     {
     }
 
