@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Enums\ModerationStateEnum;
 use App\Models\Post;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
@@ -14,6 +15,7 @@ class PostItem extends Component
     public $post;
     public $editPost = false;
 
+    protected $listeners = ['refreshSelf' => '$refresh'];
     protected $rules = ['post.content' => 'required'];
 
     public function mount(Post $post)
@@ -38,6 +40,14 @@ class PostItem extends Component
             'rejectLabel' => __('Abbrechen'),
             'method' => 'performDelete',
         ]);
+    }
+
+    public function approvePost(Post $post)
+    {
+        $post->moderation_state_id = ModerationStateEnum::APPROVED->value;
+        $post->save();
+        $this->notification()->success(__('Post freigeschalten!'));
+        $this->emitSelf('refreshSelf');
     }
 
     public function render()

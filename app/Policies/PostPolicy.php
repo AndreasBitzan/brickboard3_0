@@ -45,7 +45,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return (bool) $user->isModerator();
+        return (bool) $user->hasPermissionTo('topic moderation');
     }
 
     /**
@@ -62,5 +62,10 @@ class PostPolicy
     public function forceDelete(User $user, Post $post): bool
     {
         return $user->id == $post->user_id || $user->isModerator();
+    }
+
+    public function approve(User $user): bool
+    {
+        return (bool) $user->hasPermissionTo('topic moderation');
     }
 }

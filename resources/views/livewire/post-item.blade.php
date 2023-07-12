@@ -1,10 +1,14 @@
-<article @class(['grid grid-cols-[200px_auto] shadow dark:bg-slate-600', 'bg-yellow-100 dark:bg-yellow-100 dark:text-black' => $post->moderation_state_id == 2])>
-    @livewire('profile.user-image',['user'=>$post->author])
+<article @class([
+    'grid grid-cols-[200px_auto] shadow dark:bg-slate-600',
+    'bg-yellow-100 dark:bg-yellow-100 dark:text-black' =>
+        $post->moderation_state_id == 2,
+])>
+    @livewire('profile.user-image', ['user' => $post->author])
     <div class="p-4">
         <header class="border-b-4 border-gray-500 pb-2 flex justify-between">
             <span>
-                @if($post->moderation_state_id == 2)
-                <span class="text-xl font-bold text-yellow-500">[{{ __("WARTEND") }}]</span>
+                @if ($post->moderation_state_id == 2)
+                    <span class="text-xl font-bold text-yellow-500">[{{ __('WARTEND') }}]</span>
                 @endif
                 {{ __('am') }} {{ $post->created_at->format('d.m.Y H:i') }}
                 @if ($post->created_at != $post->updated_at)
@@ -12,6 +16,13 @@
                 @endif
             </span>
             <span>
+                @if ($post->moderation_state_id == 2)
+                    @can('approve', $post)
+                        <button wire:click="approvePost({{ $post }})">
+                                <x-icons.solid.check class="w-5 h-5 hover:text-gray-500" />
+                        </button>
+                    @endcan
+                @endif
                 @can('update', $post)
                     <button wire:click="$toggle('editPost')">
                         @if ($editPost)

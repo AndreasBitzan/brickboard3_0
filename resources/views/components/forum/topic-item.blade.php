@@ -1,12 +1,12 @@
 <a href="{{ route('topic.detail',['messageboard' => $topic->messageboard, 'topic' => $topic]) }}" 
-    @class(['grid grid-cols-[5px_5%_auto_auto_25%] border border-gray-200 shadow-md dark:bg-slate-700 dark:text-white', 'bg-yellow-100 dark:bg-yellow-100 dark:text-black' => $topic->moderation_state_id == 2])
+    @class(['grid grid-cols-[5px_5%_auto_auto_25%] border border-l-0 border-gray-200 shadow-md dark:bg-slate-700 dark:text-white', 'bg-yellow-100 dark:bg-yellow-100 dark:text-black' => $topic->moderation_state_id == 2])
     >
-    <div class="h-full bg-gray-400 block">
+    <div @class(['block h-full', 'bg-gray-400' => $read, 'bg-brickred' => !$read]) >
     </div>
     <div class="text-gray-900 p-2 flex items-center justify-center">
         <x-icons.solid.burger @class(['w-auto h-full', 'text-brickred' => !$read]) />
     </div>
-    <div class="flex flex-col justify-center px-2 py-1 border-l border-gray-200">
+    <div @class(['flex flex-col justify-center px-2 py-1 border-l', 'border-gray-200' => $read, 'border-brickred' => !$read])>
         <h2 class="text-xl font-semibold hover:text-brickred">
             @if ($topic->moderation_state_id == 2)
             <span class="font-bold text-yellow-500">[{{ __("WARTEND") }}]</span>

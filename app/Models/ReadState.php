@@ -12,4 +12,9 @@ class ReadState extends Model
     protected $table = 'topic_user_read_states';
 
     protected $fillable = ['topic_id', 'user_id', 'messageboard_id', 'unread_posts_count', 'read_posts_count'];
+
+    public function topic()
+    {
+        return $this->belongsTo(Topic::class);
+    }
 }

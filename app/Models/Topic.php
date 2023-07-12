@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Http\Enums\ModerationStateEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Topic extends Model
 {
@@ -62,9 +62,9 @@ class Topic extends Model
         return $this->belongsTo(User::class, 'last_user_id');
     }
 
-    public function latestPost(): HasOne
+    public function latestPost()
     {
-        return $this->hasOne(Post::class)->latestOfMany();
+        return $this->posts()->where('moderation_state_id', ModerationStateEnum::APPROVED->value)->latest()->first();
     }
 
     public function followers()

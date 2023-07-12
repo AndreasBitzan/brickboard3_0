@@ -19,35 +19,49 @@
         class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
         role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
         <div class="py-1" role="none">
+            @if (
+                $topic->moderation_state_id != 1 &&
+                    auth()->user()->hasPermissionTo('topic moderation'))
+                <button type="button" wire:click="approveTopic"
+                    class="text-gray-700 group flex items-center px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                    id="menu-item-0">
+                    <x-icons.solid.check class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                    {{ __('Freischalten') }}
+                </button>
+            @endif
             @if (auth()->user()->hasPermissionTo('pin topic'))
-                <button type="button" wire:click="pinTopic" class="text-gray-700 group flex items-center px-4 py-2 text-sm" role="menuitem"
-                    tabindex="-1" id="menu-item-0">
+                <button type="button" wire:click="pinTopic"
+                    class="text-gray-700 group flex items-center px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                    id="menu-item-1">
                     @if (!$topic->sticky)
-                    <x-icons.solid.pin class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
-                    {{ __('Anpinnen') }}
+                        <x-icons.solid.pin class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                        {{ __('Anpinnen') }}
                     @else
-                    <x-icons.solid.x-mark class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
-                    {{ __('Entpinnen') }} 
+                        <x-icons.solid.x-mark class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                        {{ __('Entpinnen') }}
                     @endif
                 </button>
             @endif
+
             @if (auth()->user()->hasPermissionTo('lock topic'))
-                <button type="button" wire:click="lockTopic" class="text-gray-700 group flex items-center px-4 py-2 text-sm" role="menuitem"
-                    tabindex="-1" id="menu-item-1">
+                <button type="button" wire:click="lockTopic"
+                    class="text-gray-700 group flex items-center px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                    id="menu-item-2">
                     @if ($topic->locked)
-                    <x-icons.solid.unlock class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
-                    {{ __('Entsperren') }}
+                        <x-icons.solid.unlock class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                        {{ __('Entsperren') }}
                     @else
-                    <x-icons.solid.lock class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
-                    {{ __('Sperren') }}
+                        <x-icons.solid.lock class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                        {{ __('Sperren') }}
                     @endif
                 </button>
             @endif
         </div>
         @if (auth()->user()->hasPermissionTo('delete topic'))
             <div class="py-1" role="none">
-                <button type="button" wire:click="deleteTopic" class="text-gray-700 group flex items-center px-4 py-2 text-sm" role="menuitem"
-                    tabindex="-1" id="menu-item-6">
+                <button type="button" wire:click="deleteTopic"
+                    class="text-gray-700 group flex items-center px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                    id="menu-item-3">
                     <x-icons.solid.trash class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
                     {{ __('Löschen') }}
                 </button>

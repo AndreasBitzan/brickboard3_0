@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Enums\ModerationStateEnum;
 use App\Http\Livewire\Traits\WithSorting;
 use App\Models\Post;
 use App\Models\Topic;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use WireUi\Traits\Actions;
@@ -96,12 +98,38 @@ class TopicDetail extends Component
         $this->topic->save();
     }
 
+    public function approveTopic()
+    {
+        $this->topic->moderation_state_id = ModerationStateEnum::APPROVED->value;
+        foreach ($this->topic->posts as $post) {
+            $post->moderation_state_id = ModerationStateEnum::APPROVED->value;
+            $post->save();
+        }
+        $this->notification()->info(__('Thema freigeschalten'));
+        $this->topic->save();
+        $this->emitSelf('refreshPostList');
+    }
+
     public function getRowsQueryProperty()
     {
-        // TODO check by moderation state
         $query = Post::query()
             ->where('topic_id', $this->topic->id)
         ;
+
+        if (!Auth::check() || !auth()->user()->hasPermissionTo('topic moderation')) {
+            if (Auth::check() && auth()->user()->moderation_state_id != ModerationStateEnum::APPROVED->value) {
+                $query->where('moderation_state_id', ModerationStateEnum::APPROVED->value)
+                    ->orWhere(function ($query) {
+                        $query->where('user_id', auth()->id())
+                            ->where('moderation_state_id', ModerationStateEnum::PENDING->value)
+                            ->where('topic_id', $this->topic->id)
+                        ;
+                    })
+                ;
+            } else {
+                $query->where('moderation_state_id', ModerationStateEnum::APPROVED->value);
+            }
+        }
 
         return $this->applySorting($query);
     }
@@ -119,6 +147,7 @@ class TopicDetail extends Component
                 'content' => $this->content,
                 'topic_id' => $this->topic->id,
                 'messageboard_id' => $this->messageboard->id,
+                'moderation_state_id' => auth()->user()->moderation_state_id,
             ]);
             $this->notification()->success(__('Post erfolgreich erstellt!'));
         }

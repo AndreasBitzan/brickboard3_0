@@ -10,8 +10,10 @@ class MessageboardItem extends Component
 {
     /**
      * Create a new component instance.
+     *
+     * @param mixed $read
      */
-    public function __construct(public Messageboard $messageboard)
+    public function __construct(public Messageboard $messageboard, public $read = true)
     {
     }
 

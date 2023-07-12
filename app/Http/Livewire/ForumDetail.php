@@ -24,11 +24,22 @@ class ForumDetail extends Component
 
     public function getRowsQueryProperty()
     {
-        // TODO FILTER BY MODERATION STATE
+        // TODO write DB Query with left join on readstates to make it sortable by unread
         $query = Topic::query()->where('topics.messageboard_id', $this->messageboard->id);
 
-        if (!auth()->user() || !auth()->user()->hasPermissionTo('topic moderation')) {
-            $query->where('moderation_state_id', ModerationStateEnum::APPROVED->value);
+        if (!Auth::check() || !auth()->user()->hasPermissionTo('topic moderation')) {
+            if (Auth::check() && auth()->user()->moderation_state_id != ModerationStateEnum::APPROVED->value) {
+                $query->where('moderation_state_id', ModerationStateEnum::APPROVED->value)
+                    ->orWhere(function ($query) {
+                        $query->where('user_id', auth()->id())
+                            ->where('moderation_state_id', ModerationStateEnum::PENDING->value)
+                            ->where('topics.messageboard_id', $this->messageboard->id)
+                        ;
+                    })
+                ;
+            } else {
+                $query->where('moderation_state_id', ModerationStateEnum::APPROVED->value);
+            }
         }
 
         return $query->orderBy('sticky', 'desc')->orderBy('created_at', 'desc');
