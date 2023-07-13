@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Enums\ModerationStateEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -136,6 +137,11 @@ class User extends Authenticatable
         return $this->belongsTo(ModerationState::class);
     }
 
+    public function read_topics()
+    {
+        return $this->belongsToMany(Topic::class, 'topic_user_read_states')->withPivot('messageboard_id', 'unread_posts_count', 'read_posts_count');
+    }
+
     protected static function booted(): void
     {
         static::created(function (User $user) {
@@ -148,9 +154,21 @@ class User extends Authenticatable
         });
 
         static::updated(function (User $user) {
-            if (isset($user->getChanges()['moderation_state_id'])) {
-                Topic::where('user_id', $user->id)->update(['moderation_state_id' => $user->getChanges()['moderation_state_id']]);
-                Post::where('user_id', $user->id)->update(['moderation_state_id' => $user->getChanges()['moderation_state_id']]);
+            if (isset($user->getChanges()['moderation_state_id']) && $user->moderation_state_id == ModerationStateEnum::APPROVED->value) {
+                // Has to be done like this unfortunately to make sure it triggers updated event for Topic and Post to count up correctly on posts and topicscount
+                $topicsToUpdate = Topic::where('user_id', $user->id)->where('moderation_state_id', '!=', ModerationStateEnum::APPROVED->value)->get();
+
+                foreach ($topicsToUpdate as $topic) {
+                    $topic->moderation_state_id = ModerationStateEnum::APPROVED->value;
+                    $topic->save();
+                }
+
+                $postsToUpdate = Post::where('user_id', $user->id)->where('moderation_state_id', '!=', ModerationStateEnum::APPROVED->value)->get();
+
+                foreach ($postsToUpdate as $post) {
+                    $post->moderation_state_id = ModerationStateEnum::APPROVED->value;
+                    $post->save();
+                }
             }
         });
     }

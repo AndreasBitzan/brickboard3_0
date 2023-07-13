@@ -7,12 +7,15 @@ use App\Models\Messageboard;
 use App\Models\ReadState;
 use App\Models\Topic;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
+use WireUi\Traits\Actions;
 
 class ForumDetail extends Component
 {
     use WithPagination;
+    use Actions;
     public $messageboard;
     public $search;
     public $readStates = [];
@@ -62,6 +65,32 @@ class ForumDetail extends Component
         }
 
         return 0 == $readState->unread_posts_count;
+    }
+
+    public function markAsRead()
+    {
+        // Absolut geile Lösung
+        $emptyTopics = Topic::where('messageboard_id', $this->messageboard->id)->whereDoesntHave('users', function ($subQuery) {
+            return $subQuery->where('users.id', auth()->id());
+        })->get();
+
+        foreach ($emptyTopics as $topic) {
+            ReadState::create([
+                'messageboard_id' => $this->messageboard->id,
+                'user_id' => auth()->id(),
+                'topic_id' => $topic->id,
+                'read_posts_count' => $topic->posts_count,
+            ]);
+        }
+
+        $topics = auth()->user()->read_topics()->wherePivot('unread_posts_count', '>', 0)->get();
+
+        // fuck read count, unread count is more important and now this can be done in one query, makes it performant
+        ReadState::where('user_id', auth()->id())->whereIn('topic_id', $topics->pluck('id')->toArray())->update([
+            'unread_posts_count' => 0,
+        ]);
+
+        $this->notification()->success(__('Themen als gelesen markiert'));
     }
 
     public function render()

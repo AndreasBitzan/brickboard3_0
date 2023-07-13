@@ -72,12 +72,32 @@ class Topic extends Model
         return $this->belongsToMany(User::class, 'user_topic_follows');
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'topic_user_read_states')->withPivot('messageboard_id', 'unread_posts_count', 'read_posts_count');
+    }
+
     protected static function booted(): void
     {
         static::created(function (Topic $topic) {
             error_log('TOPIC WAS CREATED DISPACHT JOB OR ASSING BADGE?');
-            Messageboard::where('id', $topic->messageboard_id)->incrementEach(['topics_count' => 1, 'posts_count' => 1], ['last_topic_id' => $topic->id]);
+
+            if ($topic->moderation_state_id == ModerationStateEnum::APPROVED->value) {
+                Messageboard::where('id', $topic->messageboard_id)->incrementEach(['topics_count' => 1, 'posts_count' => 1], ['last_topic_id' => $topic->id]);
+            }
+            ReadState::create([
+                'messageboard_id' => $topic->messageboard_id,
+                'user_id' => $topic->user_id,
+                'topic_id' => $topic->id,
+                'read_posts_count' => 1,
+            ]);
             $topic->followers()->attach($topic->user_id);
+        });
+
+        static::updated(function (Topic $topic) {
+            if (isset($topic->getChanges()['moderation_state_id']) && $topic->moderation_state_id == ModerationStateEnum::APPROVED->value) {
+                Messageboard::where('id', $topic->messageboard_id)->incrementEach(['topics_count' => 1, 'posts_count' => 1], ['last_topic_id' => $topic->id]);
+            }
         });
 
         static::deleted(function (Topic $topic) {

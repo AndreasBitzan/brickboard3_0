@@ -1,7 +1,11 @@
 <div>
     @auth
-    <div class="flex justify-between pb-4">
-        <span>{{ __("Themen als gelesen markieren") }}</span>
+    <div class="flex justify-between items-center pb-4">
+        <button type="button" wire:click="markAsRead" class="flex p-2 items-center dark:text-white hover:bg-gray-200 dark:hover:bg-slate-700 rounded">
+            <x-icons.solid.check wire:loading.remove class="-ml-0.5 h-5 w5" />
+            <div wire:loading class="loadingspinner"></div>
+        <span class="ml-2">{{ __("Themen als gelesen markieren") }}</span>
+    </button>
         @can('create', App\Post::class)
         <x-basics.big-button link href="{{ route('forum.create-topic', ['messageboard'=>$messageboard]) }}">
             <x-slot name="icon">

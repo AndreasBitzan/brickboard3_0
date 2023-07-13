@@ -33,8 +33,8 @@
                 <p class="text-gray-400 dark:text-white">{{ __('Letzter Post') }}</p>
                 <div class="dark:text-white">
                     @isset($messageboard->last_topic)
-                        <p class="dark:text-white"> {{ $messageboard->last_topic->title }} </p>
-                        <p class="dark:text-white"> {{ __('von') }}: {{ $messageboard->last_topic->author->name }} </p>
+                        <p class="dark:text-white"><a class="hover:underline" href="{{ route('topic.detail', ['messageboard'=>$messageboard,'topic'=>$messageboard->last_topic]) }}"> {{ $messageboard->last_topic->title }} </a></p>
+                        <p class="dark:text-white"><a class="hover:underline" href="{{ route('user.profile', ['user'=>$messageboard->last_topic->author]) }}">{{ __('von') }}: {{ $messageboard->last_topic->author->name }}</a></p>
                     @else
                         {{ __('Kein Beitrag') }}
                     @endisset

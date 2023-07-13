@@ -7,7 +7,7 @@
             <ul class="flex flex-col space-y-4 mb-4">
                 @foreach ($messageboardGroup->messageboards as $messageboard)
                     <li wire:key="messageboard-{{ $messageboard->id }}">
-                        <x-forum.messageboard-item :messageboard="$messageboard" read="{{ $this->isRead($messageboard->id) }}"  />
+                        <x-forum.messageboard-item :messageboard="$messageboard" read="{{ $this->isRead($messageboard) }}"  />
                     </li>
                 @endforeach
             </ul>
