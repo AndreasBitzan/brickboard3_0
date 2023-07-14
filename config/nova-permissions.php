@@ -104,6 +104,24 @@ return [
             'group' => 'Topics',
         ],
 
+        'create category' => [
+            'display_name' => 'Create category',
+            'description' => 'Create category',
+            'group' => 'Brickfilm categories',
+        ],
+
+        'edit category' => [
+            'display_name' => 'Edit category',
+            'description' => 'edit category',
+            'group' => 'Brickfilm categories',
+        ],
+
+        'delete category' => [
+            'display_name' => 'Delete category',
+            'description' => 'delete category',
+            'group' => 'Brickfilm categories',
+        ],
+
         'create badge' => [
             'display_name' => 'Create Badge',
             'description' => 'Create Badge',

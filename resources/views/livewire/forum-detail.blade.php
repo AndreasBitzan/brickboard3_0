@@ -23,7 +23,7 @@
                 <x-forum.topic-item :topic="$topic" read="{{ $this->isRead($topic->id) }}" />
             </li>
         @empty
-            <li class="text-center p-4 border border-gray-200">{{ __('Keine Beiträge gefunden') }}</li>
+            <li class="text-center p-4 border border-gray-200 dark:text-white">{{ __('Keine Beiträge gefunden') }}</li>
         @endempty
     </ul>
     <div class="pt-2">

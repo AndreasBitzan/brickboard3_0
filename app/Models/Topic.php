@@ -35,6 +35,7 @@ class Topic extends Model
 
     protected $casts = [
         'last_post_at' => 'datetime:Y-m-d',
+        'movie_created_at' => 'datetime:Y-m-d',
     ];
 
     public function getRouteKeyName()
@@ -75,6 +76,11 @@ class Topic extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'topic_user_read_states')->withPivot('messageboard_id', 'unread_posts_count', 'read_posts_count');
+    }
+
+    public function brickfilm_categories()
+    {
+        return $this->belongsToMany(BrickfilmCategory::class);
     }
 
     protected static function booted(): void

@@ -34,6 +34,10 @@ Route::middleware([
 ])->group(function () {
     Route::localized(function () {
         Route::get('/forum/{messageboard:slug}/'.Lang::uri('neues-thema'), function (Messageboard $messageboard) {
+            if (4 == $messageboard->id) {
+                return view('create-brickfilm')->with(['messageboard' => $messageboard]);
+            }
+
             return view('create-topic')->with(['messageboard' => $messageboard]);
         })->name('forum.create-topic');
     });
@@ -44,9 +48,17 @@ Route::localized(function () {
         Route::get('/', function () {
             return view('forum');
         })->name('forum.overview');
+
+        Route::get('/'.Lang::uri('brickfilme'), function () {
+            $messageboard = Messageboard::find(4);
+
+            return view('brickfilms')->with(['messageboard' => $messageboard]);
+        })->name('forum.brickfilms');
+
         Route::get('/{messageboard:slug}', function (Messageboard $messageboard) {
             return view('forum-detail')->with(['messageboard' => $messageboard]);
         })->name('forum.detail');
+
         Route::get('/{messageboard:slug}/{topic:slug}', [TopicController::class, 'show'])->name('topic.detail');
     });
 });
