@@ -23,8 +23,14 @@
         @endauth
     </x-forum.topic-header>
     @if ($topic->locked)
-        <div class="mb-4">
+        <div class="mb-2">
             <x-basics.warning>{{ __('Dieses Thema ist gesperrt, du kannst keine Antwort posten.') }}</x-basics.warning>
+        </div>
+    @endif
+
+    @if ($topic->topic_type_id == 2)
+        <div class="mb-8">
+           @livewire('movie-presenter', ['topic'=>$topic])
         </div>
     @endif
     <ul class="flex flex-col space-y-4">

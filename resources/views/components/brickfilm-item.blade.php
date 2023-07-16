@@ -1,6 +1,6 @@
 <div class="aspect-video relative">
     <img class="absolute inset-0 h-full w-full object-cover"
-        src="{{ $topic->video_url ? 'https://img.youtube.com/vi/' . getYoutubeThumbnail($topic->video_url) . '/0.jpg' : assets('/images/DefaultThumbnail.jpg') }}">
+        src="{{ $topic->video_url ? 'https://img.youtube.com/vi/' . getYoutubeId($topic->video_url) . '/0.jpg' : assets('/images/DefaultThumbnail.jpg') }}">
     <h3 class="absolute top-0 left-0 right-0 p-2 text-white bg-gradient-to-t from-transparent to-black">
         {{ $topic->title }}
     </h3>

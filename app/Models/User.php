@@ -142,6 +142,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Topic::class, 'topic_user_read_states')->withPivot('messageboard_id', 'unread_posts_count', 'read_posts_count');
     }
 
+    public function movies()
+    {
+        return $this->belongsToMany(Topic::class, 'movie_authors');
+    }
+
     protected static function booted(): void
     {
         static::created(function (User $user) {

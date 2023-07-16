@@ -9,10 +9,12 @@ use App\Models\Topic;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
+use WireUi\Traits\Actions;
 
 class BrickfilmsList extends Component
 {
     use WithPagination;
+    use Actions;
     public $userId;
     public $readStates = [];
     public $chosenFilters = [];
@@ -20,7 +22,7 @@ class BrickfilmsList extends Component
 
     protected $queryString = ['chosenFilters'];
 
-    protected $listeners = ['refreshMovieList', 'includesPeter'];
+    protected $listeners = ['refreshMovieList', 'includesPeter', 'markAsRead'];
 
     public function refreshMovieList($filters)
     {
@@ -78,6 +80,32 @@ class BrickfilmsList extends Component
         return 0 == $readState->unread_posts_count;
     }
 
+    public function markAsRead()
+    {
+        // Absolut geile Lösung
+        $emptyTopics = Topic::where('messageboard_id', 4)->whereDoesntHave('users', function ($subQuery) {
+            return $subQuery->where('users.id', auth()->id());
+        })->get();
+
+        foreach ($emptyTopics as $topic) {
+            ReadState::create([
+                'messageboard_id' => 4,
+                'user_id' => auth()->id(),
+                'topic_id' => $topic->id,
+                'read_posts_count' => $topic->posts_count,
+            ]);
+        }
+
+        $topics = auth()->user()->read_topics()->wherePivot('unread_posts_count', '>', 0)->get();
+
+        // fuck read count, unread count is more important and now this can be done in one query, makes it performant
+        ReadState::where('user_id', auth()->id())->whereIn('topic_id', $topics->pluck('id')->toArray())->update([
+            'unread_posts_count' => 0,
+        ]);
+
+        $this->notification()->success(__('Themen als gelesen markiert'));
+    }
+
     public function getRowsProperty()
     {
         return $this->rowsQuery->with('brickfilm_categories')->paginate(20);
@@ -86,10 +114,6 @@ class BrickfilmsList extends Component
     public function render()
     {
         $topics = $this->rows;
-
-        error_log('BRICKFILMSLIST');
-        error_log(json_encode($this->chosenFilters));
-
         if (auth()->user()) {
             $this->readStates = ReadState::where('user_id', auth()->id())->whereIn('topic_id', $this->rows->pluck('id'))->get();
         }

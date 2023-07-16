@@ -1,7 +1,7 @@
 <div class="shadow-lg">
-    <div class="bg-gray-200 ">
+    <div class="bg-gray-200 dark:bg-slate-700 dark:text-white">
         <div class="flex justify-between items center p-2">
-            <h1 class="text-2xl"><strong>{{ __('Brickfilme') }}</strong></h1>
+            <h1 class="text-2xl dark:text-white"><strong>{{ __('Brickfilme') }}</strong></h1>
             <div class="flex space-x-4 items-center">
                 <div class="relative flex items-start">
                     <div class="flex h-6 items-center">
@@ -10,7 +10,7 @@
                     </div>
                     <div class="ml-3 text-sm leading-6">
                         <label for="includes_peter"
-                            class="cursor-pointer font-medium text-gray-900">{{ __('Film mit Peter') }}</label>
+                            class="cursor-pointer font-medium text-gray-900 dark:text-white">{{ __('Film mit Peter') }}</label>
                     </div>
                 </div>
                 <button wire:click="resetFilters" class="relative flex items-center">
@@ -19,11 +19,11 @@
                 </button>
             </div>
         </div>
-        <ul class="flex divide-x">
+        <ul class="flex divide-x dark:divide-slate-500">
             @foreach ($mainFilters as $category)
                 <li wire:key="cat-{{ $category->id }}">
                     <label for="cat-cb-{{ $category->id }}" @class([
-                        'cursor-pointer w-24 h-24 flex flex-col justify-between items-center bg-gray-100 hover:bg-gray-200 p-2 aspect-square',
+                        'cursor-pointer w-24 h-24 flex flex-col justify-between items-center bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 p-2 aspect-square',
                         'border-b-4 border-brickred bg-white' => in_array(
                             $category->id,
                             $chosenFilters),
@@ -50,7 +50,7 @@
                         @foreach ($subFilters as $category)
                             <li wire:key="cat-{{ $category->id }}">
                                 <label for="cat-cb-{{ $category->id }}" @class([
-                                    'cursor-pointer w-24 h-24 flex flex-col justify-between items-center bg-gray-100 hover:bg-gray-200 p-2 aspect-square',
+                                    'cursor-pointer w-24 h-24 flex flex-col justify-between items-center bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 p-2 aspect-square',
                                     'border-b-4 border-brickred bg-white' => in_array(
                                         $category->id,
                                         $chosenFilters),

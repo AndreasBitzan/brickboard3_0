@@ -4,6 +4,8 @@ namespace App\Http\Livewire;
 
 use App\Http\Enums\TopicTypeEnum;
 use App\Models\BrickfilmCategory;
+use App\Models\MovieAuthor;
+use App\Models\MovieRole;
 use App\Models\Post;
 use App\Models\Topic;
 use Illuminate\Support\Str;
@@ -16,6 +18,10 @@ class MovieCreator extends Component
     public $content;
     public $chosen_categories = [];
     public $messageboard;
+    public $authors = [];
+    public $movieRoles = [];
+
+    protected $listeners = ['addAuthors'];
 
     protected $rules = [
         'topic.title' => 'required|min:1',
@@ -46,6 +52,26 @@ class MovieCreator extends Component
         $this->categories = BrickfilmCategory::where('assignable', true)->orderBy('position', 'asc')->get();
         $this->topic = new Topic();
         $this->topic->movie_created_at = now();
+        $this->authors = collect([auth()->user()])->toArray();
+        $this->movieRoles = MovieRole::all();
+    }
+
+    public function addAuthors($author, $roleId)
+    {
+        $author['movie_role'] = $roleId;
+        array_push($this->authors, $author);
+    }
+
+    public function removeAuthor($id)
+    {
+        $this->authors = array_filter($this->authors, function ($author) use ($id) {
+            return $author['id'] != $id;
+        });
+    }
+
+    public function getRoleName($roleId = 1)
+    {
+        return $this->movieRoles->where('id', $roleId)->first()->name;
     }
 
     public function save()
@@ -81,6 +107,14 @@ class MovieCreator extends Component
             'messageboard_id' => $this->messageboard->id,
             'moderation_state_id' => auth()->user()->moderation_state_id,
         ]);
+
+        foreach ($this->authors as $author) {
+            MovieAuthor::create([
+                'topic_id' => $this->topic->id,
+                'user_id' => $author['id'],
+                'movie_role_id' => isset($author['movie_role']) ? $author['movie_role'] : 1,
+            ]);
+        }
 
         return $this->redirect(route('forum.brickfilms', $this->messageboard));
     }

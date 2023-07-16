@@ -83,6 +83,11 @@ class Topic extends Model
         return $this->belongsToMany(BrickfilmCategory::class);
     }
 
+    public function movie_authors()
+    {
+        return $this->belongsToMany(User::class, 'movie_authors')->withPivot('movie_role_id');
+    }
+
     protected static function booted(): void
     {
         static::created(function (Topic $topic) {

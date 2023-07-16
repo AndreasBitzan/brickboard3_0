@@ -1,7 +1,7 @@
 <?php
 
-if (!function_exists('getYoutubeThumbnail')) {
-    function getYoutubeThumbnail($url)
+if (!function_exists('getYoutubeId')) {
+    function getYoutubeId($url)
     {
         $result = preg_split('/(vi\\/|v=|\\/v\\/|youtu\\.be\\/|\\/embed\\/)/', $url);
 
