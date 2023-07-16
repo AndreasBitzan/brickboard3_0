@@ -31,6 +31,9 @@ export default {
             },
             scale: {
                 '101': '1.01',
+            },
+            flexBasis: {
+                "1/4-gap-4": "calc(25% - (3/4 * 1rem))"
             }
         },
     },

@@ -12,7 +12,7 @@
                     <x-icons.solid.clipboard-document class="w-4 h-4 mr-2" />
                     {{ __('Forum') }}
                 </x-ui.main-menu-item>
-                <x-ui.main-menu-item href="{{ route('forum.brickfilms') }}">
+                <x-ui.main-menu-item href="{{ route('forum.brickfilms') }}" :active="request()->routeIs('*.forum.brickfilms')">
                     <x-icons.solid.camera class="w-4 h-4 mr-2" />
                     {{ __('Brickfilme') }}
                 </x-ui.main-menu-item>

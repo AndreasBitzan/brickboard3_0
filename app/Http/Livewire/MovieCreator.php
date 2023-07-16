@@ -2,8 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Enums\TopicTypeEnum;
 use App\Models\BrickfilmCategory;
+use App\Models\Post;
 use App\Models\Topic;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class MovieCreator extends Component
@@ -12,12 +15,22 @@ class MovieCreator extends Component
     public $topic;
     public $content;
     public $chosen_categories = [];
+    public $messageboard;
 
     protected $rules = [
         'topic.title' => 'required|min:1',
         'topic.includes_peter' => 'nullable',
         'topic.movie_created_at' => 'required',
-        'topic.movie_url' => 'required',
+        'topic.video_url' => 'required',
+        'content' => 'required',
+        'chosen_categories' => 'required|max:3',
+    ];
+
+    protected $validationAttributes = [
+        'topic.title' => 'Titel',
+        'topic.video_url' => 'Video URL',
+        'content' => 'Inhalt',
+        'chosen_categories' => 'Kategorien',
     ];
 
     private $movieEditorPlaceholder = [
@@ -35,8 +48,48 @@ class MovieCreator extends Component
         $this->topic->movie_created_at = now();
     }
 
+    public function save()
+    {
+        $this->validate();
+
+        $slug = Str::slug($this->topic->title);
+
+        if (Topic::where('slug', $slug)->exists()) {
+            $slug = Str::slug($this->topic->title).'-'.now()->month.now()->day.now()->hour.now()->minute.now()->second;
+        }
+
+        if (!$this->topic->includes_peter) {
+            $this->topic->includes_peter = false;
+        }
+
+        $this->topic->slug = $slug;
+        $this->topic->messageboard_id = $this->messageboard->id;
+        $this->topic->user_id = auth()->id();
+        $this->topic->last_user_id = auth()->id();
+        $this->topic->moderation_state_id = auth()->user()->moderation_state_id;
+        $this->topic->topic_type_id = TopicTypeEnum::BRICKFILM->value;
+        $this->topic->last_post_at = now();
+
+        $this->topic->save();
+
+        $this->topic->brickfilm_categories()->sync($this->chosen_categories);
+
+        Post::create([
+            'user_id' => auth()->id(),
+            'content' => $this->content,
+            'topic_id' => $this->topic->id,
+            'messageboard_id' => $this->messageboard->id,
+            'moderation_state_id' => auth()->user()->moderation_state_id,
+        ]);
+
+        return $this->redirect(route('forum.brickfilms', $this->messageboard));
+    }
+
     public function render()
     {
+        error_log('Render');
+        error_log(json_encode($this->chosen_categories));
+
         return view('livewire.movie-creator');
     }
 }

@@ -29,7 +29,10 @@
                     @endcan
                 </div>
             @endauth
+            @livewire('movie-filter-bar')
+            <div class="mt-8">
             @livewire('brickfilms-list')
+            </div>
         </div>
     </div>
 </x-app-layout>

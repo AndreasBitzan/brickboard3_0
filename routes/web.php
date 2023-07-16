@@ -49,7 +49,7 @@ Route::localized(function () {
             return view('forum');
         })->name('forum.overview');
 
-        Route::get('/'.Lang::uri('brickfilme'), function () {
+        Route::get('/'.Lang::uri('filmvorstellungen'), function () {
             $messageboard = Messageboard::find(4);
 
             return view('brickfilms')->with(['messageboard' => $messageboard]);

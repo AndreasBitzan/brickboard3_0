@@ -41,13 +41,13 @@
             <div class="relative mt-2">
                 <input wire:model.lazy="topic.includes_peter" id="peter" name="peter" type="checkbox"
                     class="cursor-pointer mt-1 h-6 w-6 rounded border-gray-300 text-brickred focus:ring-brickred">
-                @error('topic.video_url')
+                @error('topic.includes_peter')
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                         <x-icons.exclamation class="h-5 w-5 text-red-500" />
                     </div>
                 @enderror
             </div>
-            @error('topic.video_url')
+            @error('topic.includes_peter')
                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
             @enderror
         </div>
@@ -73,7 +73,7 @@
         <div class="w-1/3">
             <div class="flex justify-between">
                 <label for="categories"
-                    class="block text-sm font-medium leading-6 text-gray-900"><strong>{{ __('Kategorien') }}</strong></label>
+                    class="block text-sm font-medium leading-6 text-gray-900 dark:text-white"><strong>{{ __('Kategorien') }}</strong></label>
                 <span class="text-sm leading-6 text-gray-500" id="email-optional">{{ __('Max.') }} 3</span>
             </div>
             <div class="relative mt-2 rounded-md shadow-sm">
@@ -97,5 +97,22 @@
         <div class="w-1/3">
 
         </div>
+    </div>
+    <div class="mt-8" wire:ignore>
+        <label for="comment" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
+            <strong>{{ __('Inhalt') }}</strong></label>
+        <x-suneditor wire:model.defer="content">
+        </x-suneditor>
+    </div>
+    @error('content')
+        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+    @enderror
+    <div class="flex justify-end py-2">
+        <x-basics.big-button type="button" wire:click="save">
+            <x-slot name="icon">
+                <x-icons.paper-airplane class="w-5 h-5" />
+            </x-slot>
+            <span>{{ __('Absenden') }}</span>
+        </x-basics.big-button>
     </div>
 </div>

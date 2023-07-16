@@ -5,4 +5,5 @@ return [
     'mitglieder' => 'members',
     'profil' => 'profile',
     'brickfilme' => 'brickfilms',
+    'filmvorstellungen' => 'movie-presentations',
 ];
