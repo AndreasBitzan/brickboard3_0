@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Model;
 
-class MovieAuthor extends Pivot
+class MovieAuthor extends Model
 {
     protected $fillable = ['id', 'topic_id', 'user_id', 'movie_role_id'];
 
-    protected $with = ['movieRole'];
+    protected $with = ['movieRole', 'user'];
 
     public function user()
     {
@@ -23,5 +23,16 @@ class MovieAuthor extends Pivot
     public function movieRole()
     {
         return $this->belongsTo(MovieRole::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::created(function (MovieAuthor $author) {
+            UserDetail::where('user_id', $author->user_id)->increment('movies_count');
+        });
+
+        static::deleted(function (MovieAuthor $author) {
+            UserDetail::where('user_id', $author->user_id)->decrement('movies_count');
+        });
     }
 }

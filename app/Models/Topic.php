@@ -85,7 +85,17 @@ class Topic extends Model
 
     public function movie_authors()
     {
-        return $this->belongsToMany(User::class, 'movie_authors')->withPivot('movie_role_id');
+        return $this->hasMany(MovieAuthor::class);
+    }
+
+    public function reactions()
+    {
+        return $this->hasMany(Reaction::class);
+    }
+
+    public function reactors()
+    {
+        return $this->hasMany(User::class);
     }
 
     protected static function booted(): void

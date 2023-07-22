@@ -122,6 +122,30 @@ return [
             'group' => 'Brickfilm categories',
         ],
 
+        'view reaction' => [
+            'display_name' => 'View reaction',
+            'description' => 'View reaction',
+            'group' => 'Brickfilm reactions',
+        ],
+
+        'create reaction' => [
+            'display_name' => 'Create reaction',
+            'description' => 'Create reaction',
+            'group' => 'Brickfilm reactions',
+        ],
+
+        'edit reaction' => [
+            'display_name' => 'Edit reaction',
+            'description' => 'edit reaction',
+            'group' => 'Brickfilm reactions',
+        ],
+
+        'delete reaction' => [
+            'display_name' => 'Delete reaction',
+            'description' => 'delete reaction',
+            'group' => 'Brickfilm reactions',
+        ],
+
         'create badge' => [
             'display_name' => 'Create Badge',
             'description' => 'Create Badge',

@@ -16,29 +16,31 @@
             <h2><strong>{{ __('Autoren') }}</strong></h2>
                 <ul class="bg-gray-100 dark:bg-slate-600 p-2 flex flex-col mr-2 divide-y">
                     @foreach ($topic->movie_authors as $author)
-                        <li wire:key="author-{{ $author->id }}" class="flex justify-between py-2 first:pt-0 last:pb-0">
+                        <li wire:key="author-{{ $author->user->id }}" class="py-2 first:pt-0 last:pb-0">
+                          <a href="{{ route('user.profile', $author->user) }}" class="flex justify-between hover:bg-gray-200 dark:hover:bg-slate-500" >
                             <div class="flex items-center">
                                 <div class="w-8">
-                                    <x-user-image :user="$author"></x-user-image>
+                                    <x-user-image :user="$author->user"></x-user-image>
                                 </div>
-                                <span class="ml-2 dark:text-white">{{ $author->name }}</span>
+                                <span class="ml-2 dark:text-white">{{ $author->user->name }}</span>
                             </div>
                             <span class="flex items-center">
                                 <span class="dark:text-gray-400">
-                                    {{ $this->getRoleName($author->pivot->movie_role_id) }}
+                                    {{ $author->movieRole->name }}
                                 </span>
                                
                             </span>
+                          </a>
                         </li>
                     @endforeach
                 </ul>
         </div>
     </div>
     <div class="w-2/4">
-        <iframe title="Youtube Video" id="ytplayer" width="640" height="360"
+        <iframe class="max-w-full" title="Youtube Video" id="ytplayer" width="640" height="360"
             src="https://www.youtube-nocookie.com/embed/{{ getYoutubeId($topic->video_url) }}"></iframe>
     </div>
     <div class="w-1/4">
-
+        @livewire('reaction-container',['topic'=>$topic])
     </div>
 </div>

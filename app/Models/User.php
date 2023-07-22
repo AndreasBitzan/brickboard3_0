@@ -144,7 +144,17 @@ class User extends Authenticatable
 
     public function movies()
     {
-        return $this->belongsToMany(Topic::class, 'movie_authors');
+        return $this->belongsToMany(Topic::class, 'movie_authors')->withPivot('movie_role_id');
+    }
+
+    public function reactions()
+    {
+        return $this->hasMany(Reaction::class);
+    }
+
+    public function reacted_topics()
+    {
+        return $this->belongsToMany(Topic::class, 'reaction_topic')->withTimestamps();
     }
 
     protected static function booted(): void
