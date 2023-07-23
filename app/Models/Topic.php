@@ -101,8 +101,6 @@ class Topic extends Model
     protected static function booted(): void
     {
         static::created(function (Topic $topic) {
-            error_log('TOPIC WAS CREATED DISPACHT JOB OR ASSING BADGE?');
-
             if ($topic->moderation_state_id == ModerationStateEnum::APPROVED->value) {
                 Messageboard::where('id', $topic->messageboard_id)->incrementEach(['topics_count' => 1, 'posts_count' => 1], ['last_topic_id' => $topic->id]);
             }
@@ -125,6 +123,15 @@ class Topic extends Model
             // TODO Make sure you clean up nicely
             $messageboard = $topic->messageboard;
             Messageboard::where('id', $topic->messageboard_id)->decrementEach(['topics_count' => 1, 'posts_count' => $topic->posts_count], ['last_topic_id' => $messageboard->latestTopic->id]);
+
+            // Check if the topic was a movie, if yes, reduce the counts on likes and movies
+            if (4 == $topic->messageboard_id) {
+                // Destory it like this, it will fire events correctly
+                foreach ($topic->movie_authors as $author) {
+                    MovieAuthor::destroy($author->id);
+                }
+                UserDetail::where('user_id', $topic->user_id)->decrement('received_likes_movies', $topic->likes_count);
+            }
         });
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TopicController;
+use App\Http\Controllers\UserController;
 use App\Models\Messageboard;
 use App\Models\User;
 use Illuminate\Support\Facades\Lang;
@@ -40,7 +41,20 @@ Route::middleware([
 
             return view('create-topic')->with(['messageboard' => $messageboard]);
         })->name('forum.create-topic');
+
+        Route::get('/forum/'.Lang::uri('neuer-brickfilm'), function () {
+            return view('create-brickfilm')->with(['messageboard' => Messageboard::find(4)]);
+        })->name('forum.create-movie');
+
+        Route::get('/'.Lang::uri('private-nachrichten'), function () {
+            return view('private-messages');
+        })->name('private-messages');
+
+        Route::get('/'.Lang::uri('private-nachrichten').'/'.Lang::uri('neue-nachricht'), function () {
+            return view('private-message-create');
+        })->name('private-messages.create');
     });
+    Route::get('/search-user', [UserController::class, 'search'])->name('user.search');
 });
 
 Route::localized(function () {
@@ -60,6 +74,7 @@ Route::localized(function () {
         })->name('forum.detail');
 
         Route::get('/{messageboard:slug}/{topic:slug}', [TopicController::class, 'show'])->name('topic.detail');
+        Route::get('/{messageboard:slug}/{topic:slug}/'.Lang::uri('bearbeiten'), [TopicController::class, 'edit'])->name('topic.edit');
     });
 });
 

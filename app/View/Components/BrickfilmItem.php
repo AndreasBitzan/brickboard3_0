@@ -11,7 +11,7 @@ class BrickfilmItem extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public Topic $topic, public bool $read)
+    public function __construct(public Topic $topic, public bool $read, public bool $fire = false)
     {
     }
 

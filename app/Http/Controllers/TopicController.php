@@ -20,4 +20,15 @@ class TopicController extends Controller
 
         return view('topic-detail')->with(['messageboard' => $messageboard, 'topic' => $topic]);
     }
+
+    public function edit(Messageboard $messageboard, Topic $topic)
+    {
+        $this->authorize('update', $topic);
+
+        // Only edit movies like this so far
+        if (4 == $messageboard->id) {
+            return view('edit-brickfilm')->with(['messageboard' => $messageboard, 'topic' => $topic]);
+        }
+        abort(404);
+    }
 }

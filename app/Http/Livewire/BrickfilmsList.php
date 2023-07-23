@@ -108,7 +108,16 @@ class BrickfilmsList extends Component
 
     public function getRowsProperty()
     {
-        return $this->rowsQuery->with('brickfilm_categories')->paginate(20);
+        return $this->rowsQuery->with('brickfilm_categories', 'reactions')->paginate(20);
+    }
+
+    public function isOnFire(Topic $topic)
+    {
+        if (count($topic->reactions) > 0) {
+            return $topic->reactions()->whereBetween('created_at', [now()->subDays(7), now()])->count() > 0;
+        }
+
+        return false;
     }
 
     public function render()

@@ -31,10 +31,12 @@ class Reaction extends Model
     {
         static::created(function (Reaction $reaction) {
             UserDetail::where('user_id', $reaction->topic->user_id)->increment('received_likes_movies');
+            Topic::where('id', $reaction->topic_id)->increment('likes_count');
         });
 
         static::deleted(function (Reaction $reaction) {
             UserDetail::where('user_id', $reaction->topic->user_id)->decrement('received_likes_movies');
+            Topic::where('id', $reaction->topic_id)->decrement('likes_count');
         });
     }
 }

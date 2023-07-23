@@ -4,6 +4,9 @@
     <h3 class="absolute top-0 left-0 right-0 p-2 text-white bg-gradient-to-t from-transparent to-black">
         {{ $topic->title }}
     </h3>
+    @if($fire)
+    <img src="{{ asset('images/upnoppen.png') }}" class="z-10 absolute -bottom-1 -right-1 w-12 h-12 heartbeat">
+    @endif
     <div class="absolute bottom-0 left-0 right-0 p-2 text-white bg-gradient-to-b from-transparent to-black">
         <p>{{ $topic->author->name }}</p>
         <p>{{ $topic->movie_created_at->format('d.m.Y') }}</p>

@@ -3,11 +3,11 @@
     <div class="grid grid-cols-3 grid-rows-3 gap-4">
         <div>
             <label for="title" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
-                <strong>{{ __('Title') }}</strong>
+                <strong>{{ __('Titel') }}</strong>
             </label>
             <div class="relative mt-2 rounded-md shadow-sm">
                 <x-input.basic-input wire:model.lazy='topic.title' type="text" id="title" name="title"
-                    placeholder="{{ __('Mein Brickfilm') }}" />
+                    placeholder="{{ __('Mein Brickfilm') }}" disabled="{{ $isEdit }}" />
                 @error('topic.title')
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                         <x-icons.exclamation class="h-5 w-5 text-red-500" />
@@ -59,13 +59,13 @@
                             <span class="dark:text-gray-400">
                                 {{ $this->getRoleName(isset($author['movie_role']) ? $author['movie_role'] : 1) }}
                             </span>
-                            <span>
-                                @if ($author['id'] != auth()->id())
-                                    <button class="ml-2" type="button" wire:click="removeAuthor({{ $author['id'] }})">
-                                        <x-icons.x-mark class="w-5 h-5 dark:text-white" />
-                                    </button>
-                                @endif
-                            </span>
+
+                            @if ($author['id'] != auth()->id())
+                                <button class="ml-2" type="button" wire:click="removeAuthor({{ $author['id'] }})">
+                                    <x-icons.x-mark class="w-5 h-5 dark:text-white" />
+                                </button>
+                            @endif
+
                         </span>
                     </li>
                 @endforeach
@@ -132,15 +132,17 @@
             @enderror
         </div>
     </div>
-    <div class="mt-8" wire:ignore>
-        <label for="comment" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
-            <strong>{{ __('Inhalt') }}</strong></label>
-        <x-suneditor wire:model.defer="content">
-        </x-suneditor>
-    </div>
-    @error('content')
-        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-    @enderror
+    @if ($topic->id == null)
+        <div class="mt-8" wire:ignore>
+            <label for="comment" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
+                <strong>{{ __('Inhalt') }}</strong></label>
+            <x-suneditor wire:model.defer="content">
+            </x-suneditor>
+        </div>
+        @error('content')
+            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+        @enderror
+    @endif
     <div class="flex justify-end py-2">
         <x-basics.big-button type="button" wire:click="save">
             <x-slot name="icon">

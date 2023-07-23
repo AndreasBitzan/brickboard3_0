@@ -157,6 +157,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Topic::class, 'reaction_topic')->withTimestamps();
     }
 
+    public function chats()
+    {
+        return $this->belongsToMany(PrivateTopic::class, 'private_topic_user');
+    }
+
     protected static function booted(): void
     {
         static::created(function (User $user) {

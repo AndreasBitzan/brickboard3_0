@@ -110,13 +110,13 @@
                                         class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
                                     {{ __('Profil') }}
                                 </a>
-                                <a href="#"
+                                <a href="{{ route('private-messages') }}"
                                     class="text-gray-700 dark:text-gray-200 group flex items-center px-4 py-2 text-sm"
                                     role="menuitem" tabindex="-1" id="menu-item-1">
                                     <x-icons.solid.envelope class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
                                     {{ __('Nachrichten') }}
                                 </a>
-                                <a href="#"
+                                <a href="{{ route('forum.create-movie') }}"
                                     class="text-gray-700 dark:text-gray-200 group flex items-center px-4 py-2 text-sm"
                                     role="menuitem" tabindex="-1" id="menu-item-0">
                                     <x-icons.solid.camera-plus
