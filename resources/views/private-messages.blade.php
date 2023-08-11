@@ -14,7 +14,8 @@
                 <div class="w-1/4">
                     @livewire('chat-list')
                 </div>
-                <div class="3/4">
+                <div class="w-3/4">
+                    @livewire('messages.chatbox')
                 </div>
             </div>
 

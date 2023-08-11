@@ -13,7 +13,9 @@ class UserController extends Controller
         return User::query()
             ->when($request->search, function ($query) use ($request) {
                 $query->where('name', 'like', '%'.$request->search.'%');
-            })->orderBy('name')->limit(10)->get()
+            })
+            ->where('id', '!=', auth()->id())
+            ->orderBy('name')->limit(10)->get()
         ;
     }
 }

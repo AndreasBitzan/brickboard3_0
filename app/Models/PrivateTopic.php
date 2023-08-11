@@ -20,6 +20,10 @@ class PrivateTopic extends Model
         'created_at',
     ];
 
+    protected $casts = [
+        'last_post_at' => 'datetime',
+    ];
+
     public function author()
     {
         return $this->belongsTo(User::class);
@@ -28,6 +32,11 @@ class PrivateTopic extends Model
     public function chatters()
     {
         return $this->belongsToMany(User::class, 'private_topic_user');
+    }
+
+    public function chatters_connected()
+    {
+        return $this->chatters()->where('user_id', '!=', auth()->id());
     }
 
     public function messages()

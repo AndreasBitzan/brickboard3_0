@@ -1,0 +1,23 @@
+.triangle-left::before {
+    content: "";
+    display: block;
+    border: 10px solid;
+    position: absolute;
+    top: 5px;
+    left: -20px;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.triangle-right::before {
+    content: "";
+    display: block;
+    border: 10px solid;
+    position: absolute;
+    top: 5px;
+    right: -20px;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+}
